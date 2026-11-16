@@ -13,7 +13,25 @@ import {
 } from 'lucide-react';
 
 export const Footer: React.FC = () => {
-  const { setIsAdminOpen } = useApp();
+  const { 
+    setIsAdminOpen, 
+    setSelectedCategory, 
+    setActiveInfoPage, 
+    user, 
+    orders, 
+    openRiderTracking, 
+    setUserPanelTab, 
+    setIsUserPanelOpen, 
+    setIsAuthModalOpen,
+    showToast 
+  } = useApp();
+
+  const navigateToCategory = (slug: string) => {
+    setSelectedCategory(slug);
+    const el = document.getElementById('products-section');
+    el?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <footer className="bg-slate-950 text-slate-300 pt-12 pb-24 md:pb-12 border-t border-slate-800 text-xs">
       <div className="max-w-7xl mx-auto px-4">
@@ -61,12 +79,12 @@ export const Footer: React.FC = () => {
               Marketplace
             </h4>
             <ul className="space-y-2 text-slate-400">
-              <li><a href="#products-section" className="hover:text-white transition-colors">Mega Cyclone Deals</a></li>
-              <li><a href="#products-section" className="hover:text-white transition-colors">Smartphones & Gadgets</a></li>
-              <li><a href="#products-section" className="hover:text-white transition-colors">Bikes & Motor Vehicles</a></li>
-              <li><a href="#products-section" className="hover:text-white transition-colors">Fashion & Lifestyle</a></li>
-              <li><a href="#products-section" className="hover:text-white transition-colors">Daily Groceries Express</a></li>
-              <li><a href="#products-section" className="hover:text-white transition-colors">Home & Kitchen Appliances</a></li>
+              <li><button type="button" onClick={() => navigateToCategory('all')} className="hover:text-white transition-colors cursor-pointer text-left">Mega Cyclone Deals</button></li>
+              <li><button type="button" onClick={() => navigateToCategory('smartphones-gadgets')} className="hover:text-white transition-colors cursor-pointer text-left">Smartphones & Gadgets</button></li>
+              <li><button type="button" onClick={() => navigateToCategory('bikes-vehicles')} className="hover:text-white transition-colors cursor-pointer text-left">Bikes & Motor Vehicles</button></li>
+              <li><button type="button" onClick={() => navigateToCategory('fashion-lifestyle')} className="hover:text-white transition-colors cursor-pointer text-left">Fashion & Lifestyle</button></li>
+              <li><button type="button" onClick={() => navigateToCategory('groceries-daily')} className="hover:text-white transition-colors cursor-pointer text-left">Daily Groceries Express</button></li>
+              <li><button type="button" onClick={() => navigateToCategory('home-appliances')} className="hover:text-white transition-colors cursor-pointer text-left">Home & Kitchen Appliances</button></li>
             </ul>
           </div>
 
@@ -76,12 +94,45 @@ export const Footer: React.FC = () => {
               Customer Care
             </h4>
             <ul className="space-y-2 text-slate-400">
-              <li><span className="hover:text-white cursor-pointer">Track Your Gaibandha Order</span></li>
-              <li><span className="hover:text-white cursor-pointer">7-Day Replacement Policy</span></li>
-              <li><span className="hover:text-white cursor-pointer">bKash & Nagad Payment Guide</span></li>
-              <li><span className="hover:text-white cursor-pointer">Terms & Conditions</span></li>
-              <li><span className="hover:text-white cursor-pointer">Privacy & Data Security</span></li>
-              <li><span className="hover:text-white cursor-pointer">Kapaly Wallet & Vouchers</span></li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (orders.length > 0) {
+                      openRiderTracking(orders[0]);
+                    } else if (user) {
+                      setUserPanelTab('orders');
+                      setIsUserPanelOpen(true);
+                    } else {
+                      showToast('Sign in or place an order to track live delivery', 'info');
+                      setIsAuthModalOpen(true);
+                    }
+                  }}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Track Your Gaibandha Order
+                </button>
+              </li>
+              <li><button type="button" onClick={() => setActiveInfoPage('replacement')} className="hover:text-white transition-colors cursor-pointer text-left">7-Day Replacement Policy</button></li>
+              <li><button type="button" onClick={() => setActiveInfoPage('payment')} className="hover:text-white transition-colors cursor-pointer text-left">bKash & Nagad Payment Guide</button></li>
+              <li><button type="button" onClick={() => setActiveInfoPage('terms')} className="hover:text-white transition-colors cursor-pointer text-left">Terms & Conditions</button></li>
+              <li><button type="button" onClick={() => setActiveInfoPage('privacy')} className="hover:text-white transition-colors cursor-pointer text-left">Privacy & Data Security</button></li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (user) {
+                      setUserPanelTab('wallet');
+                      setIsUserPanelOpen(true);
+                    } else {
+                      setIsAuthModalOpen(true);
+                    }
+                  }}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Fokirer Bajar Wallet & Vouchers
+                </button>
+              </li>
             </ul>
           </div>
 

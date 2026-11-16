@@ -43,6 +43,10 @@ interface AppContextType {
   setIsAuthModalOpen: (open: boolean) => void;
   isUserPanelOpen: boolean;
   setIsUserPanelOpen: (open: boolean) => void;
+  userPanelTab: 'orders' | 'profile' | 'wishlist' | 'wallet' | 'points';
+  setUserPanelTab: (tab: 'orders' | 'profile' | 'wishlist' | 'wallet' | 'points') => void;
+  activeInfoPage: 'replacement' | 'payment' | 'terms' | 'privacy' | null;
+  setActiveInfoPage: (page: 'replacement' | 'payment' | 'terms' | 'privacy' | null) => void;
   isCheckoutOpen: boolean;
   setIsCheckoutOpen: (open: boolean) => void;
   quickViewProduct: Product | null;
@@ -91,7 +95,17 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
       const saved = localStorage.getItem('kapaly_cart');
-      return saved ? JSON.parse(saved) : [];
+      const parsed = saved ? JSON.parse(saved) : [];
+      if (!Array.isArray(parsed)) return [];
+      return parsed.filter(
+        (item: any) =>
+          item &&
+          item.product &&
+          typeof item.product.id === 'string' &&
+          typeof item.product.price === 'number' &&
+          typeof item.quantity === 'number' &&
+          item.quantity > 0
+      );
     } catch {
       return [];
     }
@@ -108,6 +122,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isUserPanelOpen, setIsUserPanelOpen] = useState(false);
+  const [userPanelTab, setUserPanelTab] = useState<'orders' | 'profile' | 'wishlist' | 'wallet' | 'points'>('orders');
+  const [activeInfoPage, setActiveInfoPage] = useState<'replacement' | 'payment' | 'terms' | 'privacy' | null>(null);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [selectedOrderTracking, setSelectedOrderTracking] = useState<Order | null>(null);
@@ -280,32 +296,56 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       try {
         setLoading(true);
         const [infoRes, catRes, prodRes] = await Promise.all([
-          fetch('/api/info').then(r => r.json()),
-          fetch('/api/categories').then(r => r.json()),
-          fetch('/api/products').then(r => r.json())
+          fetch('/api/info').then(r => (r.ok ? r.json() : null)).catch(() => null),
+          fetch('/api/categories').then(r => (r.ok ? r.json() : [])).catch(() => []),
+          fetch('/api/products').then(r => (r.ok ? r.json() : [])).catch(() => [])
         ]);
-        setStoreInfo(infoRes);
-        setCategories(catRes);
-        setProducts(prodRes);
+        if (infoRes && typeof infoRes === 'object' && !infoRes.error) {
+          setStoreInfo(infoRes);
+        }
+        if (Array.isArray(catRes)) {
+          setCategories(catRes);
+        }
+        if (Array.isArray(prodRes)) {
+          setProducts(prodRes);
+        }
 
-        // Check if there's a stored user
+        // Check if there's a stored user safely
         const storedUser = localStorage.getItem('kapaly_user');
         const hasExplicitlyLoggedOut = localStorage.getItem('fokir_user_logged_out') === 'true';
+        let restoredUser: User | null = null;
         if (storedUser) {
-          const parsed = JSON.parse(storedUser);
-          setUser(parsed);
-          setWishlist(parsed.wishlist || []);
-          fetchOrders(parsed.id);
+          try {
+            const parsed = JSON.parse(storedUser);
+            if (parsed && typeof parsed === 'object' && typeof parsed.id === 'string' && typeof parsed.name === 'string') {
+              restoredUser = {
+                ...parsed,
+                balance: typeof parsed.balance === 'number' ? parsed.balance : 0,
+                points: typeof parsed.points === 'number' ? parsed.points : 0,
+                wishlist: Array.isArray(parsed.wishlist) ? parsed.wishlist : []
+              };
+            } else {
+              localStorage.removeItem('kapaly_user');
+            }
+          } catch {
+            localStorage.removeItem('kapaly_user');
+          }
+        }
+
+        if (restoredUser) {
+          setUser(restoredUser);
+          setWishlist(restoredUser.wishlist || []);
+          fetchOrders(restoredUser.id);
         } else if (!hasExplicitlyLoggedOut) {
           // Auto login demo user on first arrival only if not explicitly logged out
           const demoRes = await fetch('/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ identifier: 'shabbirmahamudcontact@gmail.com' })
-          }).then(r => r.json());
+          }).then(r => (r.ok ? r.json() : null)).catch(() => null);
           if (demoRes?.user) {
             setUser(demoRes.user);
-            setWishlist(demoRes.user.wishlist || []);
+            setWishlist(Array.isArray(demoRes.user.wishlist) ? demoRes.user.wishlist : []);
             localStorage.setItem('kapaly_user', JSON.stringify(demoRes.user));
             fetchOrders(demoRes.user.id);
           }
@@ -631,6 +671,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         setIsAuthModalOpen,
         isUserPanelOpen,
         setIsUserPanelOpen,
+        userPanelTab,
+        setUserPanelTab,
+        activeInfoPage,
+        setActiveInfoPage,
         isCheckoutOpen,
         setIsCheckoutOpen,
         quickViewProduct,

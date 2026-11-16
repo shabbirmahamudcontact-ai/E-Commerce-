@@ -275,7 +275,7 @@ export const ProductDetailModal: React.FC = () => {
   // Calculate rating statistics
   const totalReviewsCount = reviews.length;
   const ratingSum = reviews.reduce((sum, r) => sum + r.rating, 0);
-  const currentAvgRating = totalReviewsCount > 0 ? Number((ratingSum / totalReviewsCount).toFixed(1)) : product.rating;
+  const currentAvgRating = totalReviewsCount > 0 ? Number((ratingSum / totalReviewsCount).toFixed(1)) : (product.rating ?? 5.0);
 
   const distribution: { [key: number]: number } = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
   reviews.forEach(r => {
@@ -428,7 +428,7 @@ export const ProductDetailModal: React.FC = () => {
                   title="Click to view all reviews and rating breakdown"
                 >
                   <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
-                  <span>{currentAvgRating.toFixed(1)}</span>
+                  <span>{(currentAvgRating ?? 5.0).toFixed(1)}</span>
                   <div className="flex items-center text-amber-400 ml-0.5">
                     {[1, 2, 3, 4, 5].map((s) => (
                       <Star
@@ -446,29 +446,29 @@ export const ProductDetailModal: React.FC = () => {
                   </span>
                 </button>
                 <span className="text-slate-300">•</span>
-                <span className="text-xs font-semibold text-emerald-600">{product.soldCount} items sold</span>
+                <span className="text-xs font-semibold text-emerald-600">{product.soldCount ?? 0} items sold</span>
               </div>
 
               {/* Pricing Box */}
               <div className="bg-slate-50 rounded-2xl p-4 my-3 border border-slate-100">
                 <div className="flex items-baseline gap-3">
                   <span className="text-2xl sm:text-3xl font-black text-rose-600">
-                    ৳{product.price.toLocaleString()}
+                    ৳{(product.price ?? 0).toLocaleString()}
                   </span>
-                  {product.originalPrice > product.price && (
+                  {(product.originalPrice ?? 0) > (product.price ?? 0) && (
                     <span className="text-sm sm:text-base text-slate-400 line-through">
-                      ৳{product.originalPrice.toLocaleString()}
+                      ৳{(product.originalPrice ?? 0).toLocaleString()}
                     </span>
                   )}
-                  {product.discountPercent > 0 && (
+                  {(product.discountPercent ?? 0) > 0 && (
                     <span className="bg-rose-100 text-rose-700 text-xs font-bold px-2 py-0.5 rounded-full">
                       -{product.discountPercent}% OFF
                     </span>
                   )}
                 </div>
-                {product.originalPrice > product.price && (
+                {(product.originalPrice ?? 0) > (product.price ?? 0) && (
                   <p className="text-xs font-bold text-emerald-600 mt-1">
-                    You save ৳{(product.originalPrice - product.price).toLocaleString()} with Cyclone Mega Deal!
+                    You save ৳{((product.originalPrice ?? 0) - (product.price ?? 0)).toLocaleString()} with Cyclone Mega Deal!
                   </p>
                 )}
               </div>
@@ -736,7 +736,7 @@ export const ProductDetailModal: React.FC = () => {
             {/* Big Average Score Display (Left) */}
             <div className="md:col-span-5 flex flex-col items-center md:items-start text-center md:text-left justify-center md:pr-6 md:border-r border-slate-100">
               <span className="text-5xl font-black text-slate-900 tracking-tight flex items-baseline gap-1">
-                {currentAvgRating.toFixed(1)}
+                {(currentAvgRating ?? 5.0).toFixed(1)}
                 <span className="text-lg font-bold text-slate-400">/ 5.0</span>
               </span>
 

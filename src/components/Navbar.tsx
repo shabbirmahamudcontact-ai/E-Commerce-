@@ -31,6 +31,7 @@ export const Navbar: React.FC = () => {
     setIsCartOpen, 
     setIsAuthModalOpen, 
     setIsUserPanelOpen,
+    setUserPanelTab,
     isAdminOpen,
     setIsAdminOpen,
     openRiderTracking,
@@ -339,13 +340,14 @@ export const Navbar: React.FC = () => {
             <button
               onClick={() => {
                 if (user) {
+                  setUserPanelTab('wishlist');
                   setIsUserPanelOpen(true);
                 } else {
                   setIsAuthModalOpen(true);
                 }
               }}
               title="Saved Wishlist"
-              className="relative p-2 rounded-full hover:bg-slate-100 text-slate-700 hover:text-rose-600 transition-colors"
+              className="relative p-2 rounded-full hover:bg-slate-100 text-slate-700 hover:text-rose-600 transition-colors cursor-pointer"
             >
               <Heart className="w-5 h-5" />
               {wishlist.length > 0 && (
@@ -434,23 +436,25 @@ export const Navbar: React.FC = () => {
                       <div className="mt-3 grid grid-cols-2 gap-2 text-center text-xs">
                         <div 
                           onClick={() => {
+                            setUserPanelTab('wallet');
                             setIsUserPanelOpen(true);
                             setShowUserDropdown(false);
                           }}
                           className="p-2 rounded-xl bg-slate-50 border border-slate-100 hover:bg-rose-50 transition-colors cursor-pointer"
                         >
                           <p className="text-[10px] text-slate-400 font-semibold uppercase">Wallet</p>
-                          <p className="font-black text-rose-600">৳{user.balance.toLocaleString()}</p>
+                          <p className="font-black text-rose-600">৳{(user.balance ?? 0).toLocaleString()}</p>
                         </div>
                         <div 
                           onClick={() => {
+                            setUserPanelTab('points');
                             setIsUserPanelOpen(true);
                             setShowUserDropdown(false);
                           }}
                           className="p-2 rounded-xl bg-amber-50 border border-amber-100 hover:bg-amber-100/50 transition-colors cursor-pointer"
                         >
                           <p className="text-[10px] text-amber-700 font-semibold uppercase">Club Points</p>
-                          <p className="font-black text-amber-600">{user.points} pts</p>
+                          <p className="font-black text-amber-600">{user.points ?? 0} pts</p>
                         </div>
                       </div>
                     </div>
@@ -459,6 +463,7 @@ export const Navbar: React.FC = () => {
                     <div className="py-1 text-xs">
                       <button
                         onClick={() => {
+                          setUserPanelTab('orders');
                           setIsUserPanelOpen(true);
                           setShowUserDropdown(false);
                         }}
@@ -470,6 +475,7 @@ export const Navbar: React.FC = () => {
 
                       <button
                         onClick={() => {
+                          setUserPanelTab('points');
                           setIsUserPanelOpen(true);
                           setShowUserDropdown(false);
                         }}
@@ -481,6 +487,7 @@ export const Navbar: React.FC = () => {
 
                       <button
                         onClick={() => {
+                          setUserPanelTab('wishlist');
                           setIsUserPanelOpen(true);
                           setShowUserDropdown(false);
                         }}
@@ -492,6 +499,7 @@ export const Navbar: React.FC = () => {
 
                       <button
                         onClick={() => {
+                          setUserPanelTab('profile');
                           setIsUserPanelOpen(true);
                           setShowUserDropdown(false);
                         }}

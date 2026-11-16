@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext.tsx';
 import { 
   X, 
@@ -39,6 +39,8 @@ export const UserPanelModal: React.FC = () => {
     logout, 
     isUserPanelOpen, 
     setIsUserPanelOpen,
+    userPanelTab: activeTab,
+    setUserPanelTab: setActiveTab,
     selectedOrderTracking,
     setSelectedOrderTracking,
     openInvoice,
@@ -46,8 +48,6 @@ export const UserPanelModal: React.FC = () => {
     showToast
   } = useApp();
 
-  const [activeTab, setActiveTab] = useState<'orders' | 'profile' | 'wishlist' | 'wallet' | 'points'>('orders');
-  
   // Profile form state
   const [name, setName] = useState(user?.name || '');
   const [phone, setPhone] = useState(user?.phone || '');
@@ -57,7 +57,21 @@ export const UserPanelModal: React.FC = () => {
   const [isSavingProfile, setIsSavingProfile] = useState(false);
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (user) {
+      setName(user.name || '');
+      setPhone(user.phone || '');
+      setEmail(user.email || '');
+      setAddress(user.address || 'College Road, Gaibandha');
+      setCity(user.city || 'Gaibandha Sadar');
+    }
+  }, [user]);
+
   if (!isUserPanelOpen || !user) return null;
+
+  const safeBalance = user.balance ?? 0;
+  const safePoints = user.points ?? 0;
+  const safeName = user.name || 'Shopper';
 
   const wishlistedProducts = products.filter(p => wishlist.includes(p.id));
 
@@ -118,11 +132,11 @@ export const UserPanelModal: React.FC = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3.5">
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-rose-600 to-amber-500 text-white font-black text-2xl flex items-center justify-center shadow-lg">
-                {user.name.charAt(0).toUpperCase()}
+                {safeName.charAt(0).toUpperCase()}
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-lg font-black">{user.name}</h2>
+                  <h2 className="text-lg font-black">{safeName}</h2>
                   <span className="text-[10px] bg-rose-500/80 text-white font-bold px-2 py-0.5 rounded-full uppercase">
                     Gaibandha VIP
                   </span>
@@ -145,7 +159,7 @@ export const UserPanelModal: React.FC = () => {
                 title="View Wallet & Vouchers"
               >
                 <p className="text-[10px] uppercase font-bold text-rose-300">Fokirer Bajar Wallet</p>
-                <p className="text-sm font-black text-white">৳{user.balance.toLocaleString()}</p>
+                <p className="text-sm font-black text-white">৳{safeBalance.toLocaleString()}</p>
               </div>
               <div 
                 onClick={() => setActiveTab('points')}
@@ -156,7 +170,7 @@ export const UserPanelModal: React.FC = () => {
                   <span>Club Points</span>
                   <Sparkles className="w-2.5 h-2.5 text-amber-300" />
                 </p>
-                <p className="text-sm font-black text-amber-300 group-hover:scale-105 transition-transform">{user.points} pts</p>
+                <p className="text-sm font-black text-amber-300 group-hover:scale-105 transition-transform">{safePoints} pts</p>
               </div>
             </div>
           </div>
@@ -437,7 +451,7 @@ export const UserPanelModal: React.FC = () => {
             <div className="space-y-4">
               <div className="bg-gradient-to-r from-rose-600 to-amber-500 rounded-2xl p-5 text-white shadow-md">
                 <span className="text-xs font-bold text-rose-100 uppercase tracking-wider">Total Available Balance</span>
-                <h3 className="text-3xl font-black mt-1">৳{user.balance.toLocaleString()}</h3>
+                <h3 className="text-3xl font-black mt-1">৳{safeBalance.toLocaleString()}</h3>
                 <p className="text-xs text-rose-100 mt-1">
                   Ready to spend instantly on any order in Gaibandha with zero deduction fee!
                 </p>

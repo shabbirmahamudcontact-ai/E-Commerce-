@@ -9,6 +9,7 @@ export const MobileBottomNav: React.FC = () => {
     user, 
     setIsCartOpen, 
     setIsUserPanelOpen, 
+    setUserPanelTab,
     setIsAuthModalOpen,
     setIsAdminOpen,
     setSelectedCategory 
@@ -61,6 +62,7 @@ export const MobileBottomNav: React.FC = () => {
       <button
         onClick={() => {
           if (user) {
+            setUserPanelTab('wishlist');
             setIsUserPanelOpen(true);
           } else {
             setIsAuthModalOpen(true);
@@ -94,6 +96,7 @@ export const MobileBottomNav: React.FC = () => {
       <button
         onClick={() => {
           if (user) {
+            setUserPanelTab('orders');
             setIsUserPanelOpen(true);
           } else {
             setIsAuthModalOpen(true);
@@ -102,7 +105,7 @@ export const MobileBottomNav: React.FC = () => {
         className="flex flex-col items-center gap-0.5 hover:text-rose-600 cursor-pointer"
       >
         <User className="w-5 h-5" />
-        <span>{user ? user.name.split(' ')[0] : 'Sign In'}</span>
+        <span>{(user?.name || 'Sign In').split(' ')[0]}</span>
       </button>
 
     </div>

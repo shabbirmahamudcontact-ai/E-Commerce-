@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext.tsx';
 import { 
   X, 
@@ -54,12 +54,33 @@ export const CheckoutModal: React.FC = () => {
   const [isProcessingOtp, setIsProcessingOtp] = useState(false);
   const [placedOrderResult, setPlacedOrderResult] = useState<any>(null);
 
-  if (!isCheckoutOpen) return null;
-
+  // Loyalty Points state MUST be declared before any early return (Rules of Hooks)
   const userPoints = user?.points || 0;
   const [usePoints, setUsePoints] = useState(false);
   const maxRedeemablePoints = Math.min(userPoints, cartTotal);
   const [pointsToRedeem, setPointsToRedeem] = useState<number>(0);
+
+  // Sync customer info & reset step when modal opens
+  useEffect(() => {
+    if (isCheckoutOpen) {
+      setStep('details');
+      setPlacedOrderResult(null);
+      setUsePoints(false);
+      setPointsToRedeem(0);
+      setFormData(prev => ({
+        ...prev,
+        customerName: user?.name || prev.customerName || 'Customer',
+        phone: user?.phone || prev.phone || '01712345678',
+        shippingAddress: user?.address || prev.shippingAddress || 'College Road, Gaibandha',
+        city: user?.city || prev.city || 'Gaibandha Sadar'
+      }));
+      if (user?.phone) {
+        setMfsPhone(user.phone);
+      }
+    }
+  }, [isCheckoutOpen, user]);
+
+  if (!isCheckoutOpen) return null;
 
   const handleTogglePoints = (checked: boolean) => {
     setUsePoints(checked);
@@ -208,7 +229,21 @@ export const CheckoutModal: React.FC = () => {
         </div>
 
         {/* STEP 1: Details & Payment Selection */}
-        {step === 'details' && (
+        {step === 'details' && cart.length === 0 && (
+          <div className="p-8 text-center space-y-3">
+            <p className="text-sm font-extrabold text-slate-900">Your cart is currently empty</p>
+            <p className="text-xs text-slate-500">Add products to your cart before proceeding to checkout.</p>
+            <button
+              type="button"
+              onClick={() => setIsCheckoutOpen(false)}
+              className="bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-5 py-2.5 rounded-xl cursor-pointer"
+            >
+              Browse Marketplace
+            </button>
+          </div>
+        )}
+
+        {step === 'details' && cart.length > 0 && (
           <form onSubmit={handleStartPayment} className="p-5 sm:p-6 space-y-5">
             
             {/* Delivery Details */}

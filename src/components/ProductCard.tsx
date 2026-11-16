@@ -103,18 +103,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               setQuickViewProduct(product);
             }}
             className="flex items-center gap-1.5 mt-2 cursor-pointer group/rating hover:opacity-95"
-            title={`${product.rating.toFixed(1)} out of 5 stars (${product.reviewsCount} customer reviews) - Click to view reviews`}
+            title={`${(product.rating ?? 5.0).toFixed(1)} out of 5 stars (${product.reviewsCount ?? 0} customer reviews) - Click to view reviews`}
           >
             <div className="flex items-center gap-1 bg-amber-50 border border-amber-200/80 text-amber-800 px-1.5 py-0.5 rounded-md text-[11px] font-extrabold shadow-2xs">
               <Star className="w-3 h-3 fill-amber-400 text-amber-500" />
-              <span>{product.rating.toFixed(1)}</span>
+              <span>{(product.rating ?? 5.0).toFixed(1)}</span>
             </div>
             <div className="hidden xs:flex items-center text-amber-400">
               {[1, 2, 3, 4, 5].map((star) => (
                 <Star
                   key={star}
                   className={`w-2.5 h-2.5 ${
-                    star <= Math.round(product.rating)
+                    star <= Math.round(product.rating ?? 5.0)
                       ? 'fill-amber-400 text-amber-400'
                       : 'fill-slate-200 text-slate-200'
                   }`}
@@ -122,11 +122,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               ))}
             </div>
             <span className="text-[10px] text-slate-400 font-medium group-hover/rating:text-rose-600 transition-colors">
-              ({product.reviewsCount} {product.reviewsCount === 1 ? 'review' : 'reviews'})
+              ({product.reviewsCount ?? 0} {(product.reviewsCount ?? 0) === 1 ? 'review' : 'reviews'})
             </span>
             <span className="text-[10px] text-slate-300">•</span>
             <span className="text-[10px] text-emerald-600 font-semibold truncate">
-              {product.soldCount} sold
+              {product.soldCount ?? 0} sold
             </span>
           </div>
         </div>
