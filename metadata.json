@@ -1,0 +1,8 @@
+{
+  "name": "Remix Fokirer Bajar - Mega E-Commerce Marketplace",
+  "description": "Fokirer Bajar is a premier Bangladeshi mega e-commerce marketplace located at College Road, Gaibandha. Offering Cyclone deals, AI shopping assistant, live rider tracking, and printable invoices.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

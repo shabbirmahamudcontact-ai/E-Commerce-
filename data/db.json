@@ -1,0 +1,820 @@
+{
+  "products": [
+    {
+      "id": "kp-101",
+      "name": "Samsung Galaxy S24 Ultra (12GB/256GB Titanium)",
+      "bengaliName": "স্যামসাং গ্যালাক্সি এস২৪ আল্ট্রা",
+      "category": "Smartphones & Gadgets",
+      "categorySlug": "smartphones-gadgets",
+      "price": 139999,
+      "originalPrice": 175000,
+      "discountPercent": 20,
+      "badge": "Cyclone Deal ⚡",
+      "rating": 4.8,
+      "reviewsCount": 4,
+      "soldCount": 84,
+      "stock": 25,
+      "image": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800&auto=format&fit=crop&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1580910051074-3eb694886505?w=800&auto=format&fit=crop&q=80"
+      ],
+      "description": "The ultimate flagship smartphone with Galaxy AI capabilities, 200MP camera with Quad Telephoto, Snapdragon 8 Gen 3 processor, and built-in S-Pen. 1 Year Official Brand Warranty across Bangladesh.",
+      "features": [
+        "Snapdragon 8 Gen 3 for Galaxy",
+        "200MP Quad Camera with AI Zoom",
+        "5000mAh Battery with 45W Fast Charging",
+        "Titanium Armor Frame with IP68"
+      ],
+      "brand": "Samsung",
+      "isCyclone": true,
+      "isExpress": true,
+      "seller": "Samsung Bangladesh Authorized Flagship"
+    },
+    {
+      "id": "kp-102",
+      "name": "Apple iPhone 15 Pro Max (256GB Natural Titanium)",
+      "bengaliName": "অ্যাপল আইফোন ১৫ প্রো ম্যাক্স",
+      "category": "Smartphones & Gadgets",
+      "categorySlug": "smartphones-gadgets",
+      "price": 154900,
+      "originalPrice": 189999,
+      "discountPercent": 18,
+      "badge": "Mega Deal 🔥",
+      "rating": 5,
+      "reviewsCount": 2,
+      "soldCount": 92,
+      "stock": 15,
+      "image": "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800&auto=format&fit=crop&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=800&auto=format&fit=crop&q=80"
+      ],
+      "description": "Forged in titanium and featuring the groundbreaking A17 Pro chip, customizable Action button, and the most powerful iPhone camera system ever with 5x telephoto optical zoom.",
+      "features": [
+        "A17 Pro chip with 6-core GPU",
+        "48MP Main Camera + 5x Telephoto",
+        "Super Retina XDR OLED ProMotion 120Hz",
+        "USB-C with USB 3 speeds"
+      ],
+      "brand": "Apple",
+      "isCyclone": true,
+      "isExpress": true,
+      "seller": "Apple Gadget World Gaibandha Hub"
+    },
+    {
+      "id": "kp-103",
+      "name": "Yamaha R15 V4 Racing Blue (155cc Dual ABS BS6)",
+      "bengaliName": "ইয়ামাহা আর১৫ ভি৪ রেসিং ব্লু",
+      "category": "Bikes & Motor Vehicles",
+      "categorySlug": "bikes-vehicles",
+      "price": 495000,
+      "originalPrice": 565000,
+      "discountPercent": 12,
+      "badge": "Cyclone Super Deal ⚡",
+      "rating": 5,
+      "reviewsCount": 2,
+      "soldCount": 22,
+      "stock": 5,
+      "image": "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=800&auto=format&fit=crop&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=800&auto=format&fit=crop&q=80"
+      ],
+      "description": "Iconic supersport motorcycle with Traction Control System, Quick Shifter, Upside Down Front Forks, Y-Connect Bluetooth Connectivity, and high performance 155cc LC4V VVA Engine. Direct registration delivery at Gaibandha BRTA!",
+      "features": [
+        "155cc Liquid Cooled 4-Stroke SOHC 4-Valve Engine",
+        "Variable Valve Actuation (VVA)",
+        "Assist & Slipper Clutch with Quick Shifter",
+        "Dual Channel ABS & Traction Control"
+      ],
+      "brand": "Yamaha",
+      "isCyclone": true,
+      "isExpress": false,
+      "seller": "ACI Motors Authorized Gaibandha Showroom"
+    },
+    {
+      "id": "kp-104",
+      "name": "Sony WH-1000XM5 Wireless Noise Canceling Headphones",
+      "bengaliName": "সনি নয়েজ ক্যান্সেলিং হেডফোন",
+      "category": "Smartphones & Gadgets",
+      "categorySlug": "smartphones-gadgets",
+      "price": 34990,
+      "originalPrice": 42000,
+      "discountPercent": 17,
+      "badge": "Express Gaibandha 🚀",
+      "rating": 4.5,
+      "reviewsCount": 2,
+      "soldCount": 45,
+      "stock": 30,
+      "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80"
+      ],
+      "description": "Industry-leading noise cancellation optimized with two processors and 8 microphones. Magnificent sound quality engineered to perfection with 30-hour battery life and ultra-comfortable design.",
+      "features": [
+        "Auto NC Optimizer based on wearing conditions",
+        "30-Hour Battery with 3 min quick charge",
+        "Speak-to-Chat & Multipoint Connection",
+        "High-Resolution Audio Wireless LDAC"
+      ],
+      "brand": "Sony",
+      "isCyclone": false,
+      "isExpress": true,
+      "seller": "Kapaly Official Store"
+    },
+    {
+      "id": "kp-105",
+      "name": "Walton Inverter Smart Frost-Free Refrigerator 380L",
+      "bengaliName": "ওয়ালটন ইনভার্টার রেফ্রিজারেটর ৩৮০ লিটার",
+      "category": "Home Appliances",
+      "categorySlug": "home-appliances",
+      "price": 48900,
+      "originalPrice": 58000,
+      "discountPercent": 16,
+      "badge": "Cyclone Deal ⚡",
+      "rating": 5,
+      "reviewsCount": 1,
+      "soldCount": 58,
+      "stock": 16,
+      "image": "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=800&auto=format&fit=crop&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=800&auto=format&fit=crop&q=80"
+      ],
+      "description": "Intelligent Inverter technology saves up to 70% electricity. Nano healthcare technology keeps food 100% fresh, hygienic and bacterial free. 12 Years compressor warranty with home delivery at College Road, Gaibandha.",
+      "features": [
+        "Intelligent Inverter Compressor",
+        "Wide Voltage Design (140V-260V)",
+        "DEO Fresh Technology",
+        "Door Open Alarm & LED Display"
+      ],
+      "brand": "Walton",
+      "isCyclone": true,
+      "isExpress": true,
+      "seller": "Walton Plaza Gaibandha College Road"
+    },
+    {
+      "id": "kp-106",
+      "name": "Premium Semi-Formal Embroidered Cotton Panjabi (Deep Navy)",
+      "bengaliName": "প্রিমিয়াম সেমি-ফরমাল কারুকাজ পাঞ্জাবি",
+      "category": "Fashion & Lifestyle",
+      "categorySlug": "fashion-lifestyle",
+      "price": 2450,
+      "originalPrice": 4200,
+      "discountPercent": 42,
+      "badge": "42% OFF 💥",
+      "rating": 5,
+      "reviewsCount": 2,
+      "soldCount": 380,
+      "stock": 75,
+      "image": "https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?w=800&auto=format&fit=crop&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?w=800&auto=format&fit=crop&q=80"
+      ],
+      "description": "Crafted from 100% Egyptian combed cotton with intricate neckline metallic thread embroidery and signature metallic snap buttons. Breathable fabric ideal for celebrations, Jummah and festive gatherings.",
+      "features": [
+        "100% Premium Combed Cotton",
+        "Designer collar & placket embroidery",
+        "Regular comfortable tailored fit",
+        "Colorfast and pre-shrunk fabric"
+      ],
+      "brand": "KAPALY Signature",
+      "isCyclone": true,
+      "isExpress": true,
+      "seller": "Kapaly Lifestyle Fashion House"
+    },
+    {
+      "id": "kp-107",
+      "name": "Traditional Dhakai Jamdani Handloom Saree (Crimson Red & Gold)",
+      "bengaliName": "ঐতিহ্যবাহী ঢাকাই জামদানি শাড়ি",
+      "category": "Fashion & Lifestyle",
+      "categorySlug": "fashion-lifestyle",
+      "price": 6850,
+      "originalPrice": 11500,
+      "discountPercent": 40,
+      "badge": "Best Seller 🌟",
+      "rating": 5,
+      "reviewsCount": 1,
+      "soldCount": 210,
+      "stock": 22,
+      "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&auto=format&fit=crop&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&auto=format&fit=crop&q=80"
+      ],
+      "description": "Exquisite authentic handloom Dhakai Jamdani saree with fine zari motifs. Lightweight, elegant drape and rich heritage artisan craftsmanship from Narayanganj weavers.",
+      "features": [
+        "Pure Resham Cotton & Zari Work",
+        "Rich floral and geometric motif",
+        "Matching unstitched blouse piece included",
+        "12 Hand length with rich pallu"
+      ],
+      "brand": "Dhakai Heritage",
+      "isCyclone": false,
+      "isExpress": true,
+      "seller": "Gaibandha Handloom Craft"
+    },
+    {
+      "id": "kp-108",
+      "name": "Teer Fortified Soybean Oil (5 Litre Canister)",
+      "bengaliName": "তীর ফর্টিফাইড সয়াবিন তেল ৫ লিটার",
+      "category": "Groceries & Daily Express",
+      "categorySlug": "groceries-daily",
+      "price": 810,
+      "originalPrice": 910,
+      "discountPercent": 11,
+      "badge": "Express Daily ⚡",
+      "rating": 5,
+      "reviewsCount": 1,
+      "soldCount": 940,
+      "stock": 200,
+      "image": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=800&auto=format&fit=crop&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=800&auto=format&fit=crop&q=80"
+      ],
+      "description": "City Group Teer Fortified Soybean Oil enriched with Vitamin A & D. Pure, hygienic and tested in world-class laboratories. Delivered in 2 hours within Gaibandha Sadar!",
+      "features": [
+        "Enriched with Vitamin A & Vitamin D",
+        "Cholesterol free heart healthy oil",
+        "100% pure triple refined",
+        "Tamper-proof safety sealed can"
+      ],
+      "brand": "Teer",
+      "isCyclone": false,
+      "isExpress": true,
+      "seller": "Kapaly Express Daily Gaibandha"
+    },
+    {
+      "id": "kp-109",
+      "name": "Miniket Premium Aromatic Rice 25kg Sack (Dinajpur Special)",
+      "bengaliName": "দিনাজপুরের মিনিকেট চাল ২৫ কেজি",
+      "category": "Groceries & Daily Express",
+      "categorySlug": "groceries-daily",
+      "price": 1850,
+      "originalPrice": 2150,
+      "discountPercent": 14,
+      "badge": "Cyclone Daily ⚡",
+      "rating": 5,
+      "reviewsCount": 1,
+      "soldCount": 520,
+      "stock": 120,
+      "image": "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&auto=format&fit=crop&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&auto=format&fit=crop&q=80"
+      ],
+      "description": "Selected fine, non-sticky long grain Miniket rice sourced from Dinajpur paddy fields. Double sorted, stone free and carefully packaged for pure homestyle feasts.",
+      "features": [
+        "Long grain, lustrous white rice",
+        "Zero dust, stones or chaff",
+        "Naturally aged for optimum fluffy cooking",
+        "Direct from North Bengal farms"
+      ],
+      "brand": "Chashi",
+      "isCyclone": true,
+      "isExpress": true,
+      "seller": "Kapaly Express Daily Gaibandha"
+    },
+    {
+      "id": "kp-110",
+      "name": "Xiaomi Smart TV A Pro 43\" 4K UHD Dolby Audio Android",
+      "bengaliName": "শাওমি ৪৩ ইঞ্চি ৪কে স্মার্ট টিভি",
+      "category": "Home Appliances",
+      "categorySlug": "home-appliances",
+      "price": 36999,
+      "originalPrice": 45000,
+      "discountPercent": 18,
+      "badge": "Cyclone Deal ⚡",
+      "rating": 5,
+      "reviewsCount": 1,
+      "soldCount": 68,
+      "stock": 24,
+      "image": "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800&auto=format&fit=crop&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800&auto=format&fit=crop&q=80"
+      ],
+      "description": "Bezel-less metallic frame design, 4K Ultra HD display with Dolby Vision, immersive 24W stereo speakers with Dolby Audio & DTS:X, Google TV OS with voice assistant remote.",
+      "features": [
+        "4K UHD 3840x2160 Resolution",
+        "Google TV with Chromecast Built-in",
+        "Dolby Vision & HDR10 Support",
+        "Quad-Core Processor with 2GB RAM + 16GB ROM"
+      ],
+      "brand": "Xiaomi",
+      "isCyclone": true,
+      "isExpress": true,
+      "seller": "Xiaomi Authorized Gaibandha Store"
+    },
+    {
+      "id": "kp-111",
+      "name": "CeraVe Foaming Facial Cleanser & Moisturizing Cream Set",
+      "bengaliName": "সেরাভে ফোমিং ফেসিয়াল ক্লিনজার ও ক্রিম সেট",
+      "category": "Health & Beauty Care",
+      "categorySlug": "health-beauty",
+      "price": 2950,
+      "originalPrice": 3800,
+      "discountPercent": 22,
+      "badge": "100% Authentic ✨",
+      "rating": 5,
+      "reviewsCount": 1,
+      "soldCount": 260,
+      "stock": 45,
+      "image": "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&auto=format&fit=crop&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&auto=format&fit=crop&q=80"
+      ],
+      "description": "Dermatologist recommended skincare set formulated with 3 essential ceramides, hyaluronic acid, and niacinamide to restore protective skin barrier without stripping natural moisture.",
+      "features": [
+        "Non-comedogenic & fragrance free",
+        "Contains 3 essential ceramides (1, 3, 6-II)",
+        "Gentle on sensitive & acne-prone skin",
+        "Direct import from USA with authenticity QR tag"
+      ],
+      "brand": "CeraVe",
+      "isCyclone": false,
+      "isExpress": true,
+      "seller": "Kapaly Beauty Lounge"
+    },
+    {
+      "id": "kp-112",
+      "name": "Bajaj Pulsar NS160 Dual Channel ABS (Fi Engine)",
+      "bengaliName": "বাজাজ পালসার এনএস১৬০ ডুয়েল এবিএস",
+      "category": "Bikes & Motor Vehicles",
+      "categorySlug": "bikes-vehicles",
+      "price": 218500,
+      "originalPrice": 245000,
+      "discountPercent": 11,
+      "badge": "Cyclone Super Deal ⚡",
+      "rating": 5,
+      "reviewsCount": 1,
+      "soldCount": 31,
+      "stock": 8,
+      "image": "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=800&auto=format&fit=crop&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=800&auto=format&fit=crop&q=80"
+      ],
+      "description": "Naked sports styling meets cutting-edge fuel injection technology with Perimeter Frame for superior agility and stability, upside down forks and dual-channel ABS braking.",
+      "features": [
+        "160.3cc Oil Cooled Twin Spark DTS-i FI Engine",
+        "17.2 PS Power @ 9000 RPM",
+        "Dual Channel ABS with 300mm front disc",
+        "Inverted Front Fork suspension"
+      ],
+      "brand": "Bajaj",
+      "isCyclone": true,
+      "isExpress": false,
+      "seller": "Uttara Motors Gaibandha Agency"
+    }
+  ],
+  "users": [
+    {
+      "id": "usr_admin_01",
+      "name": "Fokirer Bajar Admin",
+      "phone": "01900000000",
+      "email": "admin@fokirerbajar.com.bd",
+      "role": "admin",
+      "address": "Central Management Office, College Road",
+      "city": "Gaibandha Sadar",
+      "division": "Rangpur",
+      "zipCode": "5700",
+      "balance": 50000,
+      "points": 9999,
+      "createdAt": "2025-01-01T10:00:00.000Z",
+      "wishlist": []
+    },
+    {
+      "id": "usr_gaibandha_01",
+      "name": "Shabbir Mahamud",
+      "phone": "01712345678",
+      "email": "shabbirmahamudcontact@gmail.com",
+      "role": "customer",
+      "address": "Holding #42, College Road, Near Govt. Boys High School",
+      "city": "Gaibandha Sadar",
+      "division": "Rangpur",
+      "zipCode": "5700",
+      "balance": 2450,
+      "points": 9645,
+      "createdAt": "2025-01-15T10:00:00.000Z",
+      "wishlist": [
+        "kp-101",
+        "kp-103",
+        "kp-106"
+      ]
+    }
+  ],
+  "orders": [
+    {
+      "userId": "usr_gaibandha_01",
+      "customerName": "Test Shabbir",
+      "phone": "01712345678",
+      "shippingAddress": "College Road, Gaibandha",
+      "city": "Gaibandha Sadar",
+      "items": [
+        {
+          "productId": "prod_iphone_15",
+          "name": "Apple iPhone 15 Pro Max",
+          "price": 178000,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=600&auto=format&fit=crop&q=80"
+        }
+      ],
+      "subtotal": 178000,
+      "deliveryFee": 0,
+      "discount": 0,
+      "total": 177900,
+      "paymentMethod": "bKash",
+      "paymentStatus": "Paid",
+      "notes": "",
+      "pointsUsed": 100,
+      "pointsDiscount": 100,
+      "id": "FB-110270",
+      "trackingNumber": "TRK-FB-110270",
+      "invoiceNumber": "INV-FB-110270",
+      "orderStatus": "Out for Delivery",
+      "createdAt": "2026-11-12T04:55:34.972Z",
+      "estimatedDelivery": "Within 25-45 Minutes (Gaibandha Sadar Rider)",
+      "pointsEarned": 8895,
+      "rider": {
+        "id": "rdr-gb-01",
+        "name": "Md. Karim Mia",
+        "bengaliName": "মোঃ করিম মিয়া",
+        "phone": "+880 1719-876543",
+        "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80",
+        "vehicle": "Hero Splendor Plus 100cc",
+        "vehiclePlate": "Gaibandha-Ha-11-2345",
+        "rating": 4.9,
+        "completedDeliveries": 342,
+        "currentLocationName": "Near Gaibandha Govt. College, College Road",
+        "distanceKm": 1.2,
+        "etaMinutes": 27,
+        "speedKmH": 37,
+        "lat": 25.3284,
+        "lng": 89.5407
+      }
+    },
+    {
+      "userId": "usr_gaibandha_01",
+      "customerName": "Shabbir Mahamud",
+      "phone": "01712345678",
+      "shippingAddress": "College Road, Near Govt. Boys High School",
+      "city": "Gaibandha Sadar",
+      "items": [
+        {
+          "productId": "kp-105",
+          "name": "Walton Inverter Smart Frost-Free Refrigerator 380L",
+          "price": 48900,
+          "quantity": 2,
+          "image": "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=800&auto=format&fit=crop&q=80"
+        }
+      ],
+      "subtotal": 97800,
+      "deliveryFee": 0,
+      "discount": 0,
+      "total": 97800,
+      "paymentMethod": "bKash",
+      "paymentStatus": "Paid",
+      "notes": "Please call before arrival at College Road.",
+      "id": "KP-214947",
+      "trackingNumber": "TRK-KAP-214947",
+      "orderStatus": "Confirmed",
+      "createdAt": "2026-11-11T06:41:26.008Z",
+      "estimatedDelivery": "Within 24-48 Hours (Gaibandha Local Hub)"
+    },
+    {
+      "id": "KP-982411",
+      "userId": "usr_gaibandha_01",
+      "customerName": "Shabbir Mahamud",
+      "phone": "01712345678",
+      "shippingAddress": "Holding #42, College Road, Near Govt. Boys High School",
+      "city": "Gaibandha Sadar",
+      "items": [
+        {
+          "productId": "kp-106",
+          "name": "Premium Semi-Formal Embroidered Cotton Panjabi (Deep Navy)",
+          "price": 2450,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+          "productId": "kp-108",
+          "name": "Teer Fortified Soybean Oil (5 Litre Canister)",
+          "price": 810,
+          "quantity": 2,
+          "image": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=800&auto=format&fit=crop&q=80"
+        }
+      ],
+      "subtotal": 4070,
+      "deliveryFee": 0,
+      "discount": 100,
+      "total": 3970,
+      "paymentMethod": "bKash",
+      "paymentStatus": "Paid",
+      "orderStatus": "Hub Received (Gaibandha)",
+      "createdAt": "2026-11-09T14:22:00.000Z",
+      "estimatedDelivery": "Tomorrow, by 4:00 PM",
+      "trackingNumber": "TRK-KAP-884210",
+      "notes": "Please call before arriving at College Road."
+    }
+  ],
+  "vouchers": [
+    {
+      "code": "KAPALY100",
+      "discountType": "fixed",
+      "value": 100,
+      "minOrder": 1000,
+      "description": "৳100 flat discount on orders over ৳1,000"
+    },
+    {
+      "code": "CYCLONE50",
+      "discountType": "percent",
+      "value": 15,
+      "minOrder": 3000,
+      "description": "15% instant discount up to ৳800 on Cyclone deals"
+    },
+    {
+      "code": "GAIBANDHA",
+      "discountType": "fixed",
+      "value": 60,
+      "minOrder": 500,
+      "description": "Free Express delivery in Gaibandha (৳60 off)"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Smartphones & Gadgets",
+      "slug": "smartphones-gadgets",
+      "icon": "Smartphone",
+      "count": 18,
+      "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "2",
+      "name": "Fashion & Lifestyle",
+      "slug": "fashion-lifestyle",
+      "icon": "Shirt",
+      "count": 24,
+      "image": "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=300&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "3",
+      "name": "Home Appliances",
+      "slug": "home-appliances",
+      "icon": "Tv",
+      "count": 14,
+      "image": "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=300&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "4",
+      "name": "Groceries & Daily Express",
+      "slug": "groceries-daily",
+      "icon": "ShoppingBag",
+      "count": 32,
+      "image": "https://images.unsplash.com/photo-1542838132-92c53300491e?w=300&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "5",
+      "name": "Bikes & Motor Vehicles",
+      "slug": "bikes-vehicles",
+      "icon": "Bike",
+      "count": 8,
+      "image": "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=300&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "6",
+      "name": "Health & Beauty Care",
+      "slug": "health-beauty",
+      "icon": "Sparkles",
+      "count": 19,
+      "image": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=300&auto=format&fit=crop&q=80"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "rev-1794458322450-3794",
+      "productId": "kp-101",
+      "userName": "Gaibandha Tech Explorer",
+      "rating": 5,
+      "title": "Superb experience",
+      "comment": "Received on College road within 1 hour. Authentic product!",
+      "createdAt": "2026-11-12T04:38:42.450Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 1,
+      "location": "College Road, Gaibandha"
+    },
+    {
+      "id": "rev-101-1",
+      "productId": "kp-101",
+      "userName": "Shabbir Mahamud",
+      "rating": 5,
+      "title": "অসাধারণ ডেলিভারি ও অরিজিনাল ফোন!",
+      "comment": "কলেজ রোড হাবে অর্ডার করার মাত্র ২ ঘণ্টার মধ্যেই রাইডার করিম ভাই পৌঁছে দিয়েছেন। প্যাকেজিং নিখুঁত ও ইন্ট্যাক্ট সিল ছিলো। গ্যালাক্সি এআই ও ২০০ মেগাপিক্সেল ক্যামেরা এক কথায় অবিশ্বাস্য।",
+      "createdAt": "2026-11-08T11:30:00.000Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 24,
+      "location": "College Road, Gaibandha"
+    },
+    {
+      "id": "rev-101-2",
+      "productId": "kp-101",
+      "userName": "Engr. Tanvir Ahmed",
+      "rating": 5,
+      "title": "Top-tier flagship with official warranty",
+      "comment": "Titanium gray finish is gorgeous. S-Pen latency is imperceptible. Received genuine warranty card and official invoice. Highly recommended for power users!",
+      "createdAt": "2026-11-05T16:15:00.000Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 15,
+      "location": "Gaibandha Sadar"
+    },
+    {
+      "id": "rev-101-3",
+      "productId": "kp-101",
+      "userName": "Mahmudur Rahman",
+      "rating": 4,
+      "title": "Great phone, heavy battery backup",
+      "comment": "Display brightness in daylight is supreme. Battery easily lasts 1.5 days on heavy 5G usage. Slightly pricey, but with Cyclone discount ৳139,999 is good value.",
+      "createdAt": "2026-10-28T09:40:00.000Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 9,
+      "location": "Palashbari, Gaibandha"
+    },
+    {
+      "id": "rev-102-1",
+      "productId": "kp-102",
+      "userName": "Dr. Kamrul Hasan",
+      "rating": 5,
+      "title": "100% Authentic Natural Titanium",
+      "comment": "Checked serial number on Apple coverage page, completely fresh and active warranty. 5x optical zoom camera is mind-blowing. Thank you Fokirer Bajar!",
+      "createdAt": "2026-11-07T14:20:00.000Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 31,
+      "location": "Govt. Hospital Zone, Gaibandha"
+    },
+    {
+      "id": "rev-102-2",
+      "productId": "kp-102",
+      "userName": "Farhana Akter Ritu",
+      "rating": 5,
+      "title": "সেরা অভিজ্ঞতা!",
+      "comment": "বিকাশ ওটিপিতে খুব সহজেই পেমেন্ট করলাম। কোনো ঝামেলা ছাড়াই দ্রুত হাতে পেয়েছি। ফোনের ওজন আগের ১৪ প্রো ম্যাক্সের চেয়ে অনেক হালকা।",
+      "createdAt": "2026-10-30T18:05:00.000Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 12,
+      "location": "College Road Area"
+    },
+    {
+      "id": "rev-103-1",
+      "productId": "kp-103",
+      "userName": "Mehedi Hasan Babu",
+      "rating": 5,
+      "title": "স্বপ্নের বাইক এখন গাইবান্ধায়!",
+      "comment": "ACI Motors অফিসিয়াল শোরুম থেকে সরাসরি কাগজপত্র সহ ডেলিভারি পেয়েছি। কুইক শিফটার এবং ট্র্যাকশন কন্ট্রোল থাকায় রাইডিং এক্সপেরিয়েন্স দুর্দান্ত।",
+      "createdAt": "2026-11-06T10:00:00.000Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 42,
+      "location": "Gaibandha Sadar"
+    },
+    {
+      "id": "rev-103-2",
+      "productId": "kp-103",
+      "userName": "Rashedul Islam",
+      "rating": 5,
+      "title": "Smooth delivery & proper documentation",
+      "comment": "Got BRTA registration guidance from team. Bike condition was pristine 0 km odometer. Dual ABS provides confident braking on highways.",
+      "createdAt": "2026-10-25T12:00:00.000Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 18,
+      "location": "Gobindaganj"
+    },
+    {
+      "id": "rev-104-1",
+      "productId": "kp-104",
+      "userName": "Saiful Islam",
+      "rating": 5,
+      "title": "Best Noise Cancellation Ever",
+      "comment": "Working from home or traveling to Dhaka by train, the silence this headphone provides is pure bliss. LDAC sound with Apple Music is pristine.",
+      "createdAt": "2026-11-04T08:30:00.000Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 16,
+      "location": "College Road"
+    },
+    {
+      "id": "rev-104-2",
+      "productId": "kp-104",
+      "userName": "Naimur Rahman",
+      "rating": 4,
+      "title": "Super comfort and battery life",
+      "comment": "Extremely lightweight, does not press the ears even after 6 hours of continuous zoom calls. Fast charging gives 3 hours in 3 minutes.",
+      "createdAt": "2026-10-22T15:20:00.000Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 8,
+      "location": "Sundarganj"
+    },
+    {
+      "id": "rev-105-1",
+      "productId": "kp-105",
+      "userName": "Abdul Alim",
+      "rating": 5,
+      "title": "বিদ্যুৎ সাশ্রয়ী ও পর্যাপ্ত জায়গা",
+      "comment": "৩৮০ লিটার ক্যাপাসিটিতে ডিপ এবং নরমাল দুটোতেই প্রচুর জায়গা। ইনভার্টার কম্প্রেসরে বিদ্যুৎ বিল খুবই কম আসে। ১২ বছরের অফিসিয়াল ওয়ারেন্টি কার্ড সহ পেয়েছি।",
+      "createdAt": "2026-11-03T11:00:00.000Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 22,
+      "location": "College Road, Gaibandha"
+    },
+    {
+      "id": "rev-106-1",
+      "productId": "kp-106",
+      "userName": "Jamil Hossain",
+      "rating": 5,
+      "title": "কাপড়ের কোয়ালিটি ও কাজ প্রিমিয়াম",
+      "comment": "১০০% পিওর কটন ফেব্রিক, কোনো ভাঁজ পড়ে না। গলার সুতার এমব্রয়ডারি খুবই পরিপাটি। সাইজ চার্ট একদম নিখুঁত।",
+      "createdAt": "2026-11-08T17:40:00.000Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 19,
+      "location": "Gaibandha Sadar"
+    },
+    {
+      "id": "rev-106-2",
+      "productId": "kp-106",
+      "userName": "Sabbir Ahmed",
+      "rating": 5,
+      "title": "Value for money in Cyclone sale",
+      "comment": "Got it at 42% discount during cyclone flash sale. Looks way more expensive than ৳2,450. Will order more colors.",
+      "createdAt": "2026-11-01T13:10:00.000Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 11,
+      "location": "Govt College Gate"
+    },
+    {
+      "id": "rev-107-1",
+      "productId": "kp-107",
+      "userName": "Nusrat Jahan",
+      "rating": 5,
+      "title": "ঐতিহ্যবাহী ঢাকাই জামদানির নিখুঁত রূপ",
+      "comment": "শাড়ির বুনন ও জরির কাজ চোখ জুড়ানো। অনুষ্ঠানে পরার পর সবাই প্রশংসা করেছে। ম্যাচিং ব্লাউজ পিস সাথে পেয়েছি।",
+      "createdAt": "2026-11-04T19:30:00.000Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 27,
+      "location": "Gaibandha Sadar"
+    },
+    {
+      "id": "rev-108-1",
+      "productId": "kp-108",
+      "userName": "Sultana Begum",
+      "rating": 5,
+      "title": "মাত্র দেড় ঘণ্টায় ডেলিভারি!",
+      "comment": "গাইবান্ধা সদরের মধ্যে এত দ্রুত বাজার পাওয়া যাবে ভাবিনি। তেলের ক্যান সিলগালা করা ছিলো এবং দাম বাজারের চেয়েও কম।",
+      "createdAt": "2026-11-09T09:15:00.000Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 35,
+      "location": "College Road, Gaibandha"
+    },
+    {
+      "id": "rev-109-1",
+      "productId": "kp-109",
+      "userName": "Haji Mohammad Younus",
+      "rating": 5,
+      "title": "দিনাজপুরের খাঁটি চিকন মিনিকেট",
+      "comment": "চাল একদম চকচকে সাদা, ভাত রান্না করলে লম্বা ও ঝরঝরে হয়। বস্তা পরিষ্কার ছিল এবং রাইডার সরাসরি রান্নাঘর পর্যন্ত এনে দিয়েছে।",
+      "createdAt": "2026-11-07T12:00:00.000Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 17,
+      "location": "Saghata, Gaibandha"
+    },
+    {
+      "id": "rev-110-1",
+      "productId": "kp-110",
+      "userName": "Arifuzzaman",
+      "rating": 5,
+      "title": "Crisp 4K and vibrant Dolby audio",
+      "comment": "Chromecast and Google TV work flawlessly with Netflix and YouTube. Wall mount bracket included. Great service from College road team.",
+      "createdAt": "2026-11-02T16:00:00.000Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 14,
+      "location": "Gaibandha Sadar"
+    },
+    {
+      "id": "rev-111-1",
+      "productId": "kp-111",
+      "userName": "Sadia Afrin",
+      "rating": 5,
+      "title": "100% Authentic with Verification Barcode",
+      "comment": "Scanned the QR tag on packaging and confirmed original batch. Foaming texture is gentle on acne-prone skin.",
+      "createdAt": "2026-11-06T14:40:00.000Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 20,
+      "location": "College Road"
+    },
+    {
+      "id": "rev-112-1",
+      "productId": "kp-112",
+      "userName": "Kawsar Mahmud",
+      "rating": 5,
+      "title": "Pulsar NS160 Fi is a beast",
+      "comment": "Oil-cooled engine pickup is aggressive and dual-channel ABS guarantees emergency stop safety. Received registration documents smoothly.",
+      "createdAt": "2026-10-29T11:20:00.000Z",
+      "verifiedPurchase": true,
+      "helpfulCount": 25,
+      "location": "Gaibandha Sadar"
+    }
+  ]
+}
