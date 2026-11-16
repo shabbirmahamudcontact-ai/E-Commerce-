@@ -305,7 +305,7 @@ export const HeroSection: React.FC = () => {
                       Cyclone Flash
                     </span>
                     <span className="text-[10px] font-bold bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full">
-                      -{featuredDeal.discountPercent}% OFF
+                      -{featuredDeal.discountPercent ?? 0}% OFF
                     </span>
                   </div>
 
@@ -353,23 +353,23 @@ export const HeroSection: React.FC = () => {
                   {/* Pricing */}
                   <div className="flex items-baseline gap-2 mt-1">
                     <span className="text-lg font-black text-rose-600">
-                      ৳{featuredDeal.price.toLocaleString()}
+                      ৳{(featuredDeal.price ?? 0).toLocaleString()}
                     </span>
                     <span className="text-xs text-slate-400 line-through">
-                      ৳{featuredDeal.originalPrice.toLocaleString()}
+                      ৳{(featuredDeal.originalPrice ?? 0).toLocaleString()}
                     </span>
                   </div>
 
                   {/* Stock meter */}
                   <div className="mt-2">
                     <div className="flex justify-between text-[10px] font-semibold text-slate-500 mb-1">
-                      <span>Sold: {featuredDeal.soldCount}</span>
-                      <span className="text-rose-600">Only {featuredDeal.stock} left!</span>
+                      <span>Sold: {featuredDeal.soldCount ?? 0}</span>
+                      <span className="text-rose-600">Only {featuredDeal.stock ?? 0} left!</span>
                     </div>
                     <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
                       <div 
                         className="bg-gradient-to-r from-amber-500 to-rose-600 h-full rounded-full" 
-                        style={{ width: `${Math.min(100, (featuredDeal.soldCount / (featuredDeal.soldCount + featuredDeal.stock)) * 100)}%` }} 
+                        style={{ width: `${Math.min(100, ((featuredDeal.soldCount ?? 0) / Math.max(1, (featuredDeal.soldCount ?? 0) + (featuredDeal.stock ?? 0))) * 100)}%` }} 
                       />
                     </div>
                   </div>

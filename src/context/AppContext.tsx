@@ -1,6 +1,14 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Product, User, CartItem, Order, Category, StoreInfo, Review } from '../types.ts';
-import { apiFetch, createLocalDemoOrder, loadStaticFallbackDb, STATIC_STORE_INFO } from '../lib/api.ts';
+import {
+  apiFetch,
+  createLocalDemoOrder,
+  getStoredJson,
+  loadStaticFallbackDb,
+  setStoredJson,
+  STATIC_ADMIN_USER,
+  STATIC_STORE_INFO
+} from '../lib/api.ts';
 
 interface NotificationToast {
   id: string;
@@ -140,8 +148,17 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const reloadProducts = async () => {
     try {
-      const res = await apiFetch('/api/products').then(r => (r.ok ? r.json() : null));
-      if (Array.isArray(res)) setProducts(res);
+      const res = await apiFetch('/api/products');
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setProducts(data);
+          return;
+        }
+      }
+      const fb = await loadStaticFallbackDb();
+      const localProds = getStoredJson<Product[] | null>('fokir_local_products', null);
+      setProducts(Array.isArray(localProds) ? localProds : fb.products);
     } catch (e) {
       console.warn(e);
     }
@@ -156,6 +173,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ passcode })
       });
+      if (res.status === 404) throw new Error('Static fallback');
       const data = await res.json();
       if (!res.ok) {
         showToast(data.error || 'ভুল এডমিন পাসকোড!', 'error');
@@ -167,8 +185,16 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       showToast(data.message || 'এডমিন প্যানেল আনলক করা হয়েছে!', 'success');
       return { success: true };
     } catch {
-      showToast('এডমিন ভেরিফিকেশন ব্যর্থ হয়েছে', 'error');
-      return { success: false };
+      if (passcode === 'admin2026' || passcode === ADMIN_SECRET) {
+        setUser(STATIC_ADMIN_USER);
+        sessionStorage.setItem('fokir_admin_token', ADMIN_SECRET);
+        localStorage.setItem('kapaly_user', JSON.stringify(STATIC_ADMIN_USER));
+        showToast('এডমিন ভেরিফিকেশন সফল! স্বাগতম Fokirer Bajar কন্ট্রোল প্যানেলে।', 'success');
+        return { success: true };
+      }
+      const errMsg = 'ভুল এডমিন পাসকোড! সাধারণ গ্রাহকদের জন্য প্রবেশ সম্পূর্ণ নিষিদ্ধ।';
+      showToast(errMsg, 'error');
+      return { success: false, message: errMsg };
     }
   };
 
@@ -210,10 +236,16 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         refreshOrders();
         return true;
       }
+      if (res.status === 404) throw new Error('Static fallback');
       return false;
     } catch {
-      showToast('Failed to update order status', 'error');
-      return false;
+      setOrders(prev => {
+        const next = prev.map(o => (o.id === orderId ? { ...o, orderStatus: status } : o));
+        setStoredJson('fokir_local_orders', next);
+        return next;
+      });
+      showToast(`Order ${orderId} updated to ${status}`, 'success');
+      return true;
     }
   };
 
@@ -232,10 +264,43 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         await reloadProducts();
         return true;
       }
+      if (res.status === 404) throw new Error('Static fallback');
       return false;
     } catch {
-      showToast('Failed to add product', 'error');
-      return false;
+      const matchedCat = categories.find(c => c.slug === productData.categorySlug);
+      const price = Number(productData.price) || 0;
+      const orig = Number(productData.originalPrice) || price;
+      const discountPercent = orig > price && orig > 0 ? Math.round(((orig - price) / orig) * 100) : 0;
+      const newProduct: Product = {
+        id: `kp-${Date.now().toString().slice(-4)}`,
+        name: productData.name || 'New Product',
+        bengaliName: productData.bengaliName || productData.name || '',
+        category: productData.category || matchedCat?.name || 'Smartphones & Gadgets',
+        categorySlug: productData.categorySlug || 'smartphones-gadgets',
+        price,
+        originalPrice: orig,
+        discountPercent,
+        badge: productData.badge || 'Cyclone Deal ⚡',
+        rating: 5.0,
+        reviewsCount: 0,
+        soldCount: 0,
+        stock: Number(productData.stock) || 20,
+        image: productData.image || 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=800&auto=format&fit=crop&q=80',
+        images: [productData.image || 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=800&auto=format&fit=crop&q=80'],
+        description: productData.description || 'Authentic product from Fokirer Bajar Gaibandha Hub.',
+        features: Array.isArray(productData.features) ? productData.features : ['100% Authentic Warranty', 'Fast Gaibandha Delivery'],
+        brand: productData.brand || 'Fokirer Bajar Official',
+        isCyclone: Boolean(productData.isCyclone),
+        isExpress: true,
+        seller: productData.seller || 'Fokirer Bajar Official Flagship'
+      };
+      setProducts(prev => {
+        const next = [newProduct, ...prev];
+        setStoredJson('fokir_local_products', next);
+        return next;
+      });
+      showToast('New product added to Fokirer Bajar!', 'success');
+      return true;
     }
   };
 
@@ -254,10 +319,16 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         await reloadProducts();
         return true;
       }
+      if (res.status === 404) throw new Error('Static fallback');
       return false;
     } catch {
-      showToast('Failed to update product', 'error');
-      return false;
+      setProducts(prev => {
+        const next = prev.map(p => (p.id === id ? { ...p, ...updates } : p));
+        setStoredJson('fokir_local_products', next);
+        return next;
+      });
+      showToast('Product updated successfully', 'success');
+      return true;
     }
   };
 
@@ -274,10 +345,16 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         await reloadProducts();
         return true;
       }
+      if (res.status === 404) throw new Error('Static fallback');
       return false;
     } catch {
-      showToast('Failed to delete product', 'error');
-      return false;
+      setProducts(prev => {
+        const next = prev.filter(p => p.id !== id);
+        setStoredJson('fokir_local_products', next);
+        return next;
+      });
+      showToast('Product removed from catalog', 'info');
+      return true;
     }
   };
 
@@ -318,7 +395,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         if (Array.isArray(prodRes)) {
           setProducts(prodRes);
         } else if (fallbackDb) {
-          setProducts(fallbackDb.products);
+          const localProds = getStoredJson<Product[] | null>('fokir_local_products', null);
+          setProducts(Array.isArray(localProds) && localProds.length > 0 ? localProds : fallbackDb.products);
         }
 
         // Check if there's a stored user safely
@@ -378,6 +456,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             setUser(staticDemoUser);
             setWishlist(staticDemoUser.wishlist || []);
             localStorage.setItem('kapaly_user', JSON.stringify(staticDemoUser));
+            fetchOrders(staticDemoUser.id);
           }
         }
       } catch (err) {
@@ -506,14 +585,15 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     } catch (e) {
       console.warn(e);
     }
-    try {
-      const savedLocal = localStorage.getItem('fokir_local_orders');
-      if (savedLocal) {
-        const parsed = JSON.parse(savedLocal);
-        if (Array.isArray(parsed)) setOrders(parsed);
-      }
-    } catch {
-      // Ignore storage error
+    const savedLocal = getStoredJson<Order[] | null>('fokir_local_orders', null);
+    if (Array.isArray(savedLocal)) {
+      setOrders(savedLocal);
+      return;
+    }
+    const fb = await loadStaticFallbackDb();
+    if (Array.isArray(fb.orders)) {
+      setStoredJson('fokir_local_orders', fb.orders);
+      setOrders(fb.orders);
     }
   };
 
@@ -755,6 +835,25 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         helpfulCount: 0,
         location: reviewData.location || user?.city || selectedLocation || 'College Road, Gaibandha'
       };
+      const existingLocalReviews = getStoredJson<Review[]>('fokir_local_reviews', []);
+      const updatedLocalReviews = [localReview, ...existingLocalReviews];
+      setStoredJson('fokir_local_reviews', updatedLocalReviews);
+
+      const fb = await loadStaticFallbackDb();
+      const allProdReviews = [...updatedLocalReviews, ...fb.reviews].filter(r => r.productId === productId);
+      const avgRating = allProdReviews.length > 0
+        ? Number((allProdReviews.reduce((sum, r) => sum + r.rating, 0) / allProdReviews.length).toFixed(1))
+        : reviewData.rating;
+      const reviewsCount = allProdReviews.length;
+
+      setProducts(prev => {
+        const next = prev.map(p => (p.id === productId ? { ...p, rating: avgRating, reviewsCount } : p));
+        setStoredJson('fokir_local_products', next);
+        return next;
+      });
+      if (quickViewProduct?.id === productId) {
+        setQuickViewProduct({ ...quickViewProduct, rating: avgRating, reviewsCount });
+      }
       showToast('Review submitted! Thank you for your feedback.', 'success');
       return { success: true, review: localReview };
     }
@@ -770,9 +869,13 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         const data = await res.json();
         return { success: true, helpfulCount: data.helpfulCount };
       }
+      if (res.status === 404) throw new Error('Static fallback');
       return { success: false };
     } catch {
-      return { success: false };
+      const helpfulMap = getStoredJson<Record<string, number>>('fokir_local_helpful', {});
+      helpfulMap[reviewId] = (helpfulMap[reviewId] || 0) + 1;
+      setStoredJson('fokir_local_helpful', helpfulMap);
+      return { success: true, helpfulCount: helpfulMap[reviewId] };
     }
   };
 

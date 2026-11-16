@@ -666,5 +666,119 @@
       "helpfulCount": 25,
       "location": "Gaibandha Sadar"
     }
+  ],
+  "orders": [
+    {
+      "userId": "usr_gaibandha_01",
+      "customerName": "Test Shabbir",
+      "phone": "01712345678",
+      "shippingAddress": "College Road, Gaibandha",
+      "city": "Gaibandha Sadar",
+      "items": [
+        {
+          "productId": "prod_iphone_15",
+          "name": "Apple iPhone 15 Pro Max",
+          "price": 178000,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=600&auto=format&fit=crop&q=80"
+        }
+      ],
+      "subtotal": 178000,
+      "deliveryFee": 0,
+      "discount": 0,
+      "total": 177900,
+      "paymentMethod": "bKash",
+      "paymentStatus": "Paid",
+      "notes": "",
+      "pointsUsed": 100,
+      "pointsDiscount": 100,
+      "id": "FB-110270",
+      "trackingNumber": "TRK-FB-110270",
+      "invoiceNumber": "INV-FB-110270",
+      "orderStatus": "Out for Delivery",
+      "createdAt": "2026-11-12T04:55:34.972Z",
+      "estimatedDelivery": "Within 25-45 Minutes (Gaibandha Sadar Rider)",
+      "pointsEarned": 8895,
+      "rider": {
+        "id": "rdr-gb-01",
+        "name": "Md. Karim Mia",
+        "bengaliName": "মোঃ করিম মিয়া",
+        "phone": "+880 1719-876543",
+        "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80",
+        "vehicle": "Hero Splendor Plus 100cc",
+        "vehiclePlate": "Gaibandha-Ha-11-2345",
+        "rating": 4.9,
+        "completedDeliveries": 342,
+        "currentLocationName": "Near Gaibandha Govt. College, College Road",
+        "distanceKm": 1.2,
+        "etaMinutes": 27,
+        "speedKmH": 37,
+        "lat": 25.3284,
+        "lng": 89.5407
+      }
+    },
+    {
+      "userId": "usr_gaibandha_01",
+      "customerName": "Shabbir Mahamud",
+      "phone": "01712345678",
+      "shippingAddress": "College Road, Near Govt. Boys High School",
+      "city": "Gaibandha Sadar",
+      "items": [
+        {
+          "productId": "kp-105",
+          "name": "Walton Inverter Smart Frost-Free Refrigerator 380L",
+          "price": 48900,
+          "quantity": 2,
+          "image": "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=800&auto=format&fit=crop&q=80"
+        }
+      ],
+      "subtotal": 97800,
+      "deliveryFee": 0,
+      "discount": 0,
+      "total": 97800,
+      "paymentMethod": "bKash",
+      "paymentStatus": "Paid",
+      "notes": "Please call before arrival at College Road.",
+      "id": "KP-214947",
+      "trackingNumber": "TRK-KAP-214947",
+      "orderStatus": "Confirmed",
+      "createdAt": "2026-11-11T06:41:26.008Z",
+      "estimatedDelivery": "Within 24-48 Hours (Gaibandha Local Hub)"
+    },
+    {
+      "id": "KP-982411",
+      "userId": "usr_gaibandha_01",
+      "customerName": "Shabbir Mahamud",
+      "phone": "01712345678",
+      "shippingAddress": "Holding #42, College Road, Near Govt. Boys High School",
+      "city": "Gaibandha Sadar",
+      "items": [
+        {
+          "productId": "kp-106",
+          "name": "Premium Semi-Formal Embroidered Cotton Panjabi (Deep Navy)",
+          "price": 2450,
+          "quantity": 1,
+          "image": "https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?w=800&auto=format&fit=crop&q=80"
+        },
+        {
+          "productId": "kp-108",
+          "name": "Teer Fortified Soybean Oil (5 Litre Canister)",
+          "price": 810,
+          "quantity": 2,
+          "image": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=800&auto=format&fit=crop&q=80"
+        }
+      ],
+      "subtotal": 4070,
+      "deliveryFee": 0,
+      "discount": 100,
+      "total": 3970,
+      "paymentMethod": "bKash",
+      "paymentStatus": "Paid",
+      "orderStatus": "Hub Received (Gaibandha)",
+      "createdAt": "2026-11-09T14:22:00.000Z",
+      "estimatedDelivery": "Tomorrow, by 4:00 PM",
+      "trackingNumber": "TRK-KAP-884210",
+      "notes": "Please call before arriving at College Road."
+    }
   ]
 }

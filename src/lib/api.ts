@@ -1,6 +1,27 @@
-import { Category, Order, Product, Review, StoreInfo } from '../types.ts';
+import { Category, Order, Product, Review, StoreInfo, User } from '../types.ts';
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
+const EXPLICIT_STATIC_ONLY = import.meta.env.VITE_STATIC_ONLY === 'true';
+
+let runtimeStaticFallback = false;
+
+export function isStaticOnlyMode(): boolean {
+  if (API_BASE_URL) return false;
+  if (EXPLICIT_STATIC_ONLY || runtimeStaticFallback) return true;
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname.toLowerCase();
+    if (host.endsWith('.github.io') || window.location.protocol === 'file:') {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function markStaticFallbackActive(): void {
+  if (!API_BASE_URL) {
+    runtimeStaticFallback = true;
+  }
+}
 
 export function apiUrl(path: string): string {
   const normalized = path.startsWith('/') ? path : `/${path}`;
@@ -8,7 +29,18 @@ export function apiUrl(path: string): string {
 }
 
 export async function apiFetch(path: string, init?: RequestInit): Promise<Response> {
-  return fetch(apiUrl(path), init);
+  if (isStaticOnlyMode()) {
+    return new Response(JSON.stringify({ staticMode: true }), {
+      status: 404,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+  const res = await fetch(apiUrl(path), init);
+  const contentType = res.headers.get('content-type') || '';
+  if (res.status === 404 || (!res.ok && contentType.includes('text/html'))) {
+    markStaticFallbackActive();
+  }
+  return res;
 }
 
 export const STATIC_STORE_INFO: StoreInfo = {
@@ -41,10 +73,11 @@ export const STATIC_STORE_INFO: StoreInfo = {
   ]
 };
 
-interface StaticFallbackDb {
+export interface StaticFallbackDb {
   products: Product[];
   categories: Category[];
   reviews: Review[];
+  orders: Order[];
   vouchers: Array<{
     code: string;
     discountType: 'fixed' | 'percent';
@@ -68,6 +101,7 @@ export async function loadStaticFallbackDb(): Promise<StaticFallbackDb> {
         products: Array.isArray(data?.products) ? data.products : [],
         categories: Array.isArray(data?.categories) ? data.categories : [],
         reviews: Array.isArray(data?.reviews) ? data.reviews : [],
+        orders: Array.isArray(data?.orders) ? data.orders : [],
         vouchers: Array.isArray(data?.vouchers) ? data.vouchers : []
       };
       return cachedFallbackDb;
@@ -75,7 +109,41 @@ export async function loadStaticFallbackDb(): Promise<StaticFallbackDb> {
   } catch {
     // Ignore fallback load failures
   }
-  return { products: [], categories: [], reviews: [], vouchers: [] };
+  return { products: [], categories: [], reviews: [], orders: [], vouchers: [] };
+}
+
+export const STATIC_ADMIN_USER: User = {
+  id: 'usr_admin_01',
+  name: 'Fokir Central Admin',
+  phone: '01700000001',
+  email: 'admin@fokirerbajar.com.bd',
+  role: 'admin',
+  address: 'Fokirer Bajar HQ, College Road, Gaibandha',
+  city: 'Gaibandha Sadar',
+  division: 'Rangpur',
+  zipCode: '5700',
+  balance: 0,
+  points: 0,
+  createdAt: '2025-01-01T00:00:00.000Z',
+  wishlist: []
+};
+
+export function getStoredJson<T>(key: string, fallback: T): T {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    return JSON.parse(raw) as T;
+  } catch {
+    return fallback;
+  }
+}
+
+export function setStoredJson(key: string, value: unknown): void {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // Ignore storage quota errors
+  }
 }
 
 export function getLocalAiReply(message: string): string {

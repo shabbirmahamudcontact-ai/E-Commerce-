@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext.tsx';
-import { apiFetch, loadStaticFallbackDb } from '../lib/api.ts';
+import { apiFetch, getStoredJson, loadStaticFallbackDb } from '../lib/api.ts';
 import { Review } from '../types.ts';
 import { 
   X, 
@@ -72,20 +72,29 @@ export const ProductDetailModal: React.FC = () => {
   useEffect(() => {
     if (quickViewProduct?.id) {
       setLoadingReviews(true);
+      const loadFallbackReviews = async () => {
+        const fb = await loadStaticFallbackDb();
+        const localReviews = getStoredJson<Review[]>('fokir_local_reviews', []);
+        const helpfulMap = getStoredJson<Record<string, number>>('fokir_local_helpful', {});
+        const merged = [...localReviews, ...fb.reviews]
+          .filter(r => r.productId === quickViewProduct.id)
+          .map(r => ({
+            ...r,
+            helpfulCount: (r.helpfulCount || 0) + (helpfulMap[r.id] || 0)
+          }));
+        setReviews(merged);
+      };
+
       apiFetch(`/api/products/${quickViewProduct.id}/reviews`)
         .then(res => (res.ok ? res.json() : null))
         .then(async data => {
           if (data && Array.isArray(data.reviews)) {
             setReviews(data.reviews);
           } else {
-            const fb = await loadStaticFallbackDb();
-            setReviews(fb.reviews.filter(r => r.productId === quickViewProduct.id));
+            await loadFallbackReviews();
           }
         })
-        .catch(async () => {
-          const fb = await loadStaticFallbackDb();
-          setReviews(fb.reviews.filter(r => r.productId === quickViewProduct.id));
-        })
+        .catch(loadFallbackReviews)
         .finally(() => {
           setLoadingReviews(false);
         });

@@ -26,10 +26,10 @@ export const ProductGrid: React.FC = () => {
   if (searchQuery.trim()) {
     const q = searchQuery.toLowerCase();
     filtered = filtered.filter(p => 
-      p.name.toLowerCase().includes(q) || 
-      p.bengaliName.toLowerCase().includes(q) ||
-      p.brand.toLowerCase().includes(q) ||
-      p.category.toLowerCase().includes(q)
+      (p.name || '').toLowerCase().includes(q) || 
+      (p.bengaliName || '').toLowerCase().includes(q) ||
+      (p.brand || '').toLowerCase().includes(q) ||
+      (p.category || '').toLowerCase().includes(q)
     );
   }
 
@@ -39,13 +39,13 @@ export const ProductGrid: React.FC = () => {
 
   // Sort
   if (sortOption === 'price-low') {
-    filtered.sort((a, b) => a.price - b.price);
+    filtered.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
   } else if (sortOption === 'price-high') {
-    filtered.sort((a, b) => b.price - a.price);
+    filtered.sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
   } else if (sortOption === 'discount') {
-    filtered.sort((a, b) => b.discountPercent - a.discountPercent);
+    filtered.sort((a, b) => (b.discountPercent ?? 0) - (a.discountPercent ?? 0));
   } else if (sortOption === 'popular') {
-    filtered.sort((a, b) => b.soldCount - a.soldCount);
+    filtered.sort((a, b) => (b.soldCount ?? 0) - (a.soldCount ?? 0));
   }
 
   const activeCategoryObj = categories.find(c => c.slug === selectedCategory);
