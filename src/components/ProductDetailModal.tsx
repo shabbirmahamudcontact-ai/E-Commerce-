@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext.tsx';
+import { apiFetch, loadStaticFallbackDb } from '../lib/api.ts';
 import { Review } from '../types.ts';
 import { 
   X, 
@@ -71,15 +72,19 @@ export const ProductDetailModal: React.FC = () => {
   useEffect(() => {
     if (quickViewProduct?.id) {
       setLoadingReviews(true);
-      fetch(`/api/products/${quickViewProduct.id}/reviews`)
-        .then(res => res.json())
-        .then(data => {
-          if (Array.isArray(data.reviews)) {
+      apiFetch(`/api/products/${quickViewProduct.id}/reviews`)
+        .then(res => (res.ok ? res.json() : null))
+        .then(async data => {
+          if (data && Array.isArray(data.reviews)) {
             setReviews(data.reviews);
+          } else {
+            const fb = await loadStaticFallbackDb();
+            setReviews(fb.reviews.filter(r => r.productId === quickViewProduct.id));
           }
         })
-        .catch(err => {
-          console.warn('Failed to load reviews:', err);
+        .catch(async () => {
+          const fb = await loadStaticFallbackDb();
+          setReviews(fb.reviews.filter(r => r.productId === quickViewProduct.id));
         })
         .finally(() => {
           setLoadingReviews(false);

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Product, User, CartItem, Order, Category, StoreInfo, Review } from '../types.ts';
+import { apiFetch, createLocalDemoOrder, loadStaticFallbackDb, STATIC_STORE_INFO } from '../lib/api.ts';
 
 interface NotificationToast {
   id: string;
@@ -139,7 +140,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const reloadProducts = async () => {
     try {
-      const res = await fetch('/api/products').then(r => r.json());
+      const res = await apiFetch('/api/products').then(r => (r.ok ? r.json() : null));
       if (Array.isArray(res)) setProducts(res);
     } catch (e) {
       console.warn(e);
@@ -150,7 +151,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const adminLogin = async (passcode: string) => {
     try {
-      const res = await fetch('/api/auth/admin-login', {
+      const res = await apiFetch('/api/auth/admin-login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ passcode })
@@ -196,7 +197,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const updateOrderStatusAdmin = async (orderId: string, status: Order['orderStatus']) => {
     try {
-      const res = await fetch(`/api/orders/${orderId}/status`, {
+      const res = await apiFetch(`/api/orders/${orderId}/status`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',
@@ -218,7 +219,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const addProductAdmin = async (productData: any) => {
     try {
-      const res = await fetch('/api/products', {
+      const res = await apiFetch('/api/products', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -240,7 +241,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const updateProductAdmin = async (id: string, updates: any) => {
     try {
-      const res = await fetch(`/api/products/${id}`, {
+      const res = await apiFetch(`/api/products/${id}`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',
@@ -262,7 +263,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const deleteProductAdmin = async (id: string) => {
     try {
-      const res = await fetch(`/api/products/${id}`, {
+      const res = await apiFetch(`/api/products/${id}`, {
         method: 'DELETE',
         headers: {
           'x-admin-key': sessionStorage.getItem('fokir_admin_token') || ADMIN_SECRET
@@ -296,18 +297,28 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       try {
         setLoading(true);
         const [infoRes, catRes, prodRes] = await Promise.all([
-          fetch('/api/info').then(r => (r.ok ? r.json() : null)).catch(() => null),
-          fetch('/api/categories').then(r => (r.ok ? r.json() : [])).catch(() => []),
-          fetch('/api/products').then(r => (r.ok ? r.json() : [])).catch(() => [])
+          apiFetch('/api/info').then(r => (r.ok ? r.json() : null)).catch(() => null),
+          apiFetch('/api/categories').then(r => (r.ok ? r.json() : null)).catch(() => null),
+          apiFetch('/api/products').then(r => (r.ok ? r.json() : null)).catch(() => null)
         ]);
+
+        const needsStaticFallback = !Array.isArray(prodRes) || !Array.isArray(catRes);
+        const fallbackDb = needsStaticFallback ? await loadStaticFallbackDb() : null;
+
         if (infoRes && typeof infoRes === 'object' && !infoRes.error) {
           setStoreInfo(infoRes);
+        } else {
+          setStoreInfo(STATIC_STORE_INFO);
         }
         if (Array.isArray(catRes)) {
           setCategories(catRes);
+        } else if (fallbackDb) {
+          setCategories(fallbackDb.categories);
         }
         if (Array.isArray(prodRes)) {
           setProducts(prodRes);
+        } else if (fallbackDb) {
+          setProducts(fallbackDb.products);
         }
 
         // Check if there's a stored user safely
@@ -338,7 +349,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
           fetchOrders(restoredUser.id);
         } else if (!hasExplicitlyLoggedOut) {
           // Auto login demo user on first arrival only if not explicitly logged out
-          const demoRes = await fetch('/api/auth/login', {
+          const demoRes = await apiFetch('/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ identifier: 'shabbirmahamudcontact@gmail.com' })
@@ -348,6 +359,25 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             setWishlist(Array.isArray(demoRes.user.wishlist) ? demoRes.user.wishlist : []);
             localStorage.setItem('kapaly_user', JSON.stringify(demoRes.user));
             fetchOrders(demoRes.user.id);
+          } else {
+            const staticDemoUser: User = {
+              id: 'usr_gaibandha_01',
+              name: 'Shabbir Mahamud',
+              phone: '01712345678',
+              email: 'shabbirmahamudcontact@gmail.com',
+              role: 'customer',
+              address: 'Holding #42, College Road, Near Govt. Boys High School',
+              city: 'Gaibandha Sadar',
+              division: 'Rangpur',
+              zipCode: '5700',
+              balance: 2450,
+              points: 850,
+              createdAt: '2025-01-15T10:00:00.000Z',
+              wishlist: ['kp-101', 'kp-103', 'kp-106']
+            };
+            setUser(staticDemoUser);
+            setWishlist(staticDemoUser.wishlist || []);
+            localStorage.setItem('kapaly_user', JSON.stringify(staticDemoUser));
           }
         }
       } catch (err) {
@@ -432,24 +462,32 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
 
     try {
-      const res = await fetch('/api/auth/wishlist', {
+      const res = await apiFetch('/api/auth/wishlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user.id, productId })
-      }).then(r => r.json());
-
-      if (res.wishlist) {
-        setWishlist(res.wishlist);
-        const added = res.wishlist.includes(productId);
-        showToast(added ? 'Saved to your Wishlist!' : 'Removed from Wishlist', 'info');
-        if (user) {
-          const updatedUser = { ...user, wishlist: res.wishlist };
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.wishlist) {
+          setWishlist(data.wishlist);
+          const added = data.wishlist.includes(productId);
+          showToast(added ? 'Saved to your Wishlist!' : 'Removed from Wishlist', 'info');
+          const updatedUser = { ...user, wishlist: data.wishlist };
           setUser(updatedUser);
           localStorage.setItem('kapaly_user', JSON.stringify(updatedUser));
+          return;
         }
       }
+      throw new Error('Fallback wishlist');
     } catch {
-      showToast('Error updating wishlist', 'error');
+      const exists = wishlist.includes(productId);
+      const nextWishlist = exists ? wishlist.filter(id => id !== productId) : [...wishlist, productId];
+      setWishlist(nextWishlist);
+      const updatedUser = { ...user, wishlist: nextWishlist };
+      setUser(updatedUser);
+      localStorage.setItem('kapaly_user', JSON.stringify(updatedUser));
+      showToast(!exists ? 'Saved to your Wishlist!' : 'Removed from Wishlist', 'info');
     }
   };
 
@@ -457,12 +495,25 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const fetchOrders = async (userId: string) => {
     try {
-      const res = await fetch(`/api/orders?userId=${userId}`).then(r => r.json());
-      if (Array.isArray(res)) {
-        setOrders(res);
+      const response = await apiFetch(`/api/orders?userId=${userId}`);
+      if (response.ok) {
+        const res = await response.json();
+        if (Array.isArray(res)) {
+          setOrders(res);
+          return;
+        }
       }
     } catch (e) {
       console.warn(e);
+    }
+    try {
+      const savedLocal = localStorage.getItem('fokir_local_orders');
+      if (savedLocal) {
+        const parsed = JSON.parse(savedLocal);
+        if (Array.isArray(parsed)) setOrders(parsed);
+      }
+    } catch {
+      // Ignore storage error
     }
   };
 
@@ -474,11 +525,14 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const login = async (identifier: string) => {
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await apiFetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ identifier })
       });
+      if (res.status === 404) {
+        throw new Error('Static fallback');
+      }
       const data = await res.json();
       if (!res.ok) {
         showToast(data.error || 'Login failed', 'error');
@@ -493,18 +547,42 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       setIsAuthModalOpen(false);
       return { success: true };
     } catch {
-      showToast('Connection failed to Fokirer Bajar server', 'error');
-      return { success: false };
+      const cleanId = identifier.trim();
+      const localUser: User = {
+        id: `usr_local_${Date.now()}`,
+        name: cleanId.includes('@') ? cleanId.split('@')[0] : 'Gaibandha Shopper',
+        phone: cleanId.includes('@') ? '01712345678' : cleanId,
+        email: cleanId.includes('@') ? cleanId : `${cleanId}@fokirerbajar.bd`,
+        role: 'customer',
+        address: 'College Road, Gaibandha',
+        city: 'Gaibandha Sadar',
+        division: 'Rangpur',
+        zipCode: '5700',
+        balance: 2450,
+        points: 850,
+        createdAt: new Date().toISOString(),
+        wishlist: ['kp-101', 'kp-103']
+      };
+      setUser(localUser);
+      setWishlist(localUser.wishlist || []);
+      localStorage.removeItem('fokir_user_logged_out');
+      localStorage.setItem('kapaly_user', JSON.stringify(localUser));
+      showToast(`Welcome back, ${localUser.name}!`, 'success');
+      setIsAuthModalOpen(false);
+      return { success: true };
     }
   };
 
   const register = async (formData: { name: string; phone: string; email?: string; address?: string }) => {
     try {
-      const res = await fetch('/api/auth/register', {
+      const res = await apiFetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
+      if (res.status === 404) {
+        throw new Error('Static fallback');
+      }
       const data = await res.json();
       if (!res.ok) {
         showToast(data.error || 'Registration failed', 'error');
@@ -518,8 +596,28 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       setIsAuthModalOpen(false);
       return { success: true };
     } catch {
-      showToast('Network error during registration', 'error');
-      return { success: false };
+      const localUser: User = {
+        id: `usr_local_${Date.now()}`,
+        name: formData.name,
+        phone: formData.phone || '01700000000',
+        email: formData.email || `${formData.phone}@fokirerbajar.bd`,
+        role: 'customer',
+        address: formData.address || 'College Road, Gaibandha',
+        city: 'Gaibandha Sadar',
+        division: 'Rangpur',
+        zipCode: '5700',
+        balance: 100,
+        points: 50,
+        createdAt: new Date().toISOString(),
+        wishlist: []
+      };
+      setUser(localUser);
+      setWishlist([]);
+      localStorage.removeItem('fokir_user_logged_out');
+      localStorage.setItem('kapaly_user', JSON.stringify(localUser));
+      showToast('Account created with ৳100 welcome bonus!', 'success');
+      setIsAuthModalOpen(false);
+      return { success: true };
     }
   };
 
@@ -536,7 +634,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const updateProfile = async (data: Partial<User>) => {
     if (!user) return false;
     try {
-      const res = await fetch(`/api/auth/user/${user.id}`, {
+      const res = await apiFetch(`/api/auth/user/${user.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -548,20 +646,25 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         showToast('Profile updated successfully!', 'success');
         return true;
       }
+      if (res.status === 404) throw new Error('Static fallback');
       return false;
     } catch {
-      showToast('Failed to update profile', 'error');
-      return false;
+      const updated = { ...user, ...data };
+      setUser(updated);
+      localStorage.setItem('kapaly_user', JSON.stringify(updated));
+      showToast('Profile updated successfully!', 'success');
+      return true;
     }
   };
 
   const placeOrder = async (orderPayload: any) => {
     try {
-      const res = await fetch('/api/orders', {
+      const res = await apiFetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderPayload)
       });
+      if (res.status === 404) throw new Error('Static fallback');
       const data = await res.json();
       if (!res.ok) {
         showToast(data.error || 'Failed to place order', 'error');
@@ -583,14 +686,35 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       showToast('Order confirmed! Tracking ID generated.', 'success');
       return { success: true, order: data.order };
     } catch {
-      showToast('Network error during order placement', 'error');
-      return { success: false, error: 'Network error' };
+      const localOrder = createLocalDemoOrder(orderPayload);
+      clearCart();
+      setOrders(prev => {
+        const next = [localOrder, ...prev];
+        try {
+          localStorage.setItem('fokir_local_orders', JSON.stringify(next));
+        } catch {
+          // Ignore storage error
+        }
+        return next;
+      });
+      if (user) {
+        const nextPoints = Math.max(0, (user.points ?? 0) - (Number(orderPayload.pointsUsed) || 0)) + (localOrder.pointsEarned || 0);
+        const updatedUser = { ...user, points: nextPoints };
+        setUser(updatedUser);
+        try {
+          localStorage.setItem('kapaly_user', JSON.stringify(updatedUser));
+        } catch {
+          // Ignore storage error
+        }
+      }
+      showToast('Order confirmed! Tracking ID generated.', 'success');
+      return { success: true, order: localOrder };
     }
   };
 
   const submitReview = async (productId: string, reviewData: { rating: number; comment: string; title?: string; userName?: string; location?: string }) => {
     try {
-      const res = await fetch(`/api/products/${productId}/reviews`, {
+      const res = await apiFetch(`/api/products/${productId}/reviews`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -600,6 +724,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
           location: reviewData.location || user?.city || selectedLocation || 'College Road, Gaibandha'
         })
       });
+      if (res.status === 404) throw new Error('Static fallback');
       const data = await res.json();
       if (!res.ok) {
         showToast(data.error || 'Failed to submit review', 'error');
@@ -617,14 +742,27 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       showToast(data.message || 'Review submitted successfully! Thank you.', 'success');
       return { success: true, review: data.review };
     } catch {
-      showToast('Network error while posting review', 'error');
-      return { success: false, error: 'Network error' };
+      const localReview: Review = {
+        id: `rev_local_${Date.now()}`,
+        productId,
+        userId: user?.id,
+        userName: reviewData.userName || user?.name || 'Customer at College Road',
+        rating: reviewData.rating,
+        title: reviewData.title,
+        comment: reviewData.comment,
+        createdAt: new Date().toISOString(),
+        verifiedPurchase: true,
+        helpfulCount: 0,
+        location: reviewData.location || user?.city || selectedLocation || 'College Road, Gaibandha'
+      };
+      showToast('Review submitted! Thank you for your feedback.', 'success');
+      return { success: true, review: localReview };
     }
   };
 
   const voteHelpful = async (reviewId: string) => {
     try {
-      const res = await fetch(`/api/reviews/${reviewId}/helpful`, {
+      const res = await apiFetch(`/api/reviews/${reviewId}/helpful`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
       });

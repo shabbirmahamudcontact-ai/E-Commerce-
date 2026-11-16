@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../context/AppContext.tsx';
+import { apiFetch, getLocalAiReply } from '../lib/api.ts';
 import { 
   Bot, 
   Send, 
@@ -75,28 +76,29 @@ export const AiAssistant: React.FC = () => {
     setInputText('');
     setIsLoading(true);
 
+    let action: ChatMessage['action'] = undefined;
+    const q = text.toLowerCase();
+    if (q.includes('cyclone') || q.includes('offer') || q.includes('অফার') || q.includes('ছাড়')) {
+      action = { type: 'cyclone', label: 'View Cyclone Deals ⚡' };
+    } else if (q.includes('rider') || q.includes('রাইডার') || q.includes('track') || q.includes('ট্র্যাক')) {
+      action = { type: 'rider', label: 'Follow Rider Live 🛵' };
+    } else if (q.includes('order') || q.includes('অর্ডার')) {
+      action = { type: 'orders', label: 'Check Order Status 📦' };
+    }
+
     try {
-      const res = await fetch('/api/ai/chat', {
+      const res = await apiFetch('/api/ai/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text })
       });
+      if (!res.ok) throw new Error('API unavailable');
       const data = await res.json();
-
-      let action: ChatMessage['action'] = undefined;
-      const q = text.toLowerCase();
-      if (q.includes('cyclone') || q.includes('offer') || q.includes('অফার') || q.includes('ছাড়')) {
-        action = { type: 'cyclone', label: 'View Cyclone Deals ⚡' };
-      } else if (q.includes('rider') || q.includes('রাইডার') || q.includes('track') || q.includes('ট্র্যাক')) {
-        action = { type: 'rider', label: 'Follow Rider Live 🛵' };
-      } else if (q.includes('order') || q.includes('অর্ডার')) {
-        action = { type: 'orders', label: 'Check Order Status 📦' };
-      }
 
       const aiMsg: ChatMessage = {
         id: `ai_${Date.now()}`,
         sender: 'ai',
-        text: data.reply || 'দুঃখিত, উত্তর পেতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।',
+        text: data.reply || getLocalAiReply(text),
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         action
       };
@@ -106,10 +108,11 @@ export const AiAssistant: React.FC = () => {
       setMessages(prev => [
         ...prev,
         {
-          id: `ai_err_${Date.now()}`,
+          id: `ai_local_${Date.now()}`,
           sender: 'ai',
-          text: 'ফকিরের বাজার সার্ভারের সাথে সংযোগ বিঘ্নিত হয়েছে। তবে আমাদের হটলাইন 09638-FOKIR সর্বদা চালু রয়েছে!',
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          text: getLocalAiReply(text),
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          action
         }
       ]);
     } finally {

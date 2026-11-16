@@ -122,8 +122,14 @@ function MainApp() {
 
   useEffect(() => {
     const syncRoute = () => {
+      const baseRaw = import.meta.env.BASE_URL || '/';
+      const baseNormalized = baseRaw === '/' ? '/' : baseRaw.replace(/\/+$/, '');
       const hash = window.location.hash.toLowerCase();
-      const rawPath = window.location.pathname.replace(/\/+$/, '') || '/';
+      let pathname = window.location.pathname || '/';
+      if (baseNormalized !== '/' && pathname.toLowerCase().startsWith(baseNormalized.toLowerCase())) {
+        pathname = pathname.slice(baseNormalized.length) || '/';
+      }
+      const rawPath = pathname.replace(/\/+$/, '') || '/';
       const path = rawPath.toLowerCase();
 
       if (hash === '#admin' || path === '/admin') {
@@ -134,7 +140,7 @@ function MainApp() {
       if (hash.startsWith('#product-') || path.startsWith('/product/')) {
         const prodId = hash.startsWith('#product-')
           ? window.location.hash.slice('#product-'.length)
-          : window.location.pathname.slice('/product/'.length).replace(/\/+$/, '');
+          : rawPath.slice('/product/'.length).replace(/\/+$/, '');
         if (prodId && products.length > 0) {
           const found = products.find((p) => p.id === prodId);
           if (found) {
@@ -230,7 +236,7 @@ function MainApp() {
       }
 
       if (!KNOWN_PATHS.has(path)) {
-        window.history.replaceState({}, '', '/');
+        window.history.replaceState({}, '', baseRaw);
       }
     };
 

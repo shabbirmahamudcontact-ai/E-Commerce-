@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext.tsx';
+import { apiFetch, loadStaticFallbackDb } from '../lib/api.ts';
 import { 
   X, 
   Trash2, 
@@ -44,20 +45,38 @@ export const CartDrawer: React.FC = () => {
     setVoucherError('');
 
     try {
-      const res = await fetch('/api/vouchers/apply', {
+      const response = await apiFetch('/api/vouchers/apply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ code, subtotal: cartTotal })
-      }).then(r => r.json());
-
-      if (res.valid) {
-        setAppliedVoucher({ code, discount: res.discount });
-        setVoucherCode('');
-      } else {
-        setVoucherError(res.message || 'Invalid voucher');
+      });
+      if (response.ok) {
+        const res = await response.json();
+        if (res.valid) {
+          setAppliedVoucher({ code, discount: res.discount });
+          setVoucherCode('');
+        } else {
+          setVoucherError(res.message || 'Invalid voucher');
+        }
+        return;
       }
+      throw new Error('Static fallback');
     } catch {
-      setVoucherError('Failed to validate voucher');
+      const fb = await loadStaticFallbackDb();
+      const matched = fb.vouchers.find(v => v.code.toUpperCase() === code);
+      if (!matched) {
+        setVoucherError('Invalid voucher code.');
+        return;
+      }
+      if (cartTotal < matched.minOrder) {
+        setVoucherError(`Minimum order ৳${matched.minOrder} required for this voucher.`);
+        return;
+      }
+      const discountAmt = matched.discountType === 'fixed'
+        ? matched.value
+        : Math.round((cartTotal * matched.value) / 100);
+      setAppliedVoucher({ code, discount: discountAmt });
+      setVoucherCode('');
     }
   };
 
